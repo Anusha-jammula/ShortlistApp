@@ -64,14 +64,11 @@ export class DashboardComponent implements OnInit {
 
   applyFilters(): void {
     // Validate salary range
-    if (this.minSalary !== null && (this.minSalary < 50000 || this.minSalary > 200000) || (this.maxSalary !== null && (50000 > this.maxSalary  || this.maxSalary > 200000))) {
-      this.minSalary = null;
-      this.maxSalary = null;
+    if (this.minSalary !== null && this.minSalary < 50000) {
       alert('Minimum salary must be at least $50,000');
       return;
     }
-    if (this.maxSalary !== null && (50000 > this.maxSalary  || this.maxSalary > 200000)) {
-      this.maxSalary = null;
+    if (this.maxSalary !== null && (this.maxSalary < 50000 || this.maxSalary > 200000)) {
       alert('Maximum salary must be in between $50,000 and $200,000');
       return;
     }
@@ -119,7 +116,7 @@ export class DashboardComponent implements OnInit {
     this.diversity = this.computeDiversity(top);
   }
 
-  toggleBlind(): void { this.blindMode = !this.blindMode; }
+  // toggleBlind(): void { this.blindMode = !this.blindMode; }
 
   private computeDiversity(list: Candidate[]): DiversitySummary {
     const total = list.length;

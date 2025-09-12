@@ -50,6 +50,42 @@ export class SidebarComponent {
     checked ? next.add(location) : next.delete(location);
     this.selectedLocationsChange.emit(Array.from(next));
   }
+
+  onKeyPress(event: KeyboardEvent): boolean {
+    const key = event.key;
+    const input = event.target as HTMLInputElement;
+  
+    // allow control keys (Backspace, Delete, Tab, Escape, Enter)
+    const controlKeys = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter'];
+    if (controlKeys.includes(key) || (event.ctrlKey && ['a', 'c', 'v', 'x'].includes(key.toLowerCase()))) {
+      return true;
+    }
+  
+    // only digits allowed
+    if (!/^\d$/.test(key)) {
+      event.preventDefault();
+      return false;
+    }
+  
+    // disallow '0' as first char
+    if (key === '0' && input.value.length === 0) {
+      event.preventDefault();
+      return false;
+    }
+  
+    return true;
+  }
+  
+  onPaste(event: ClipboardEvent): void {
+    const input = event.target as HTMLInputElement;
+    const pasteData = event.clipboardData?.getData('text') ?? '';
+  
+    // only allow digits and not start with 0 if empty
+    if (!/^\d+$/.test(pasteData) || (pasteData.startsWith('0') && input.value.length === 0)) {
+      event.preventDefault();
+    }
+  }
+  
 }
 
 

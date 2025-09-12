@@ -46,13 +46,13 @@
   </div>
 
   <label>Enter Years of Experience</label>
-  <input type="number" class="form-control mb-2" [ngModel]="years" (ngModelChange)="yearsChange.emit($event)">
+  <input type="number" class="form-control mb-2" [ngModel]="years" (ngModelChange)="yearsChange.emit($event)" (keypress)="onKeyPress($event)" min="1">
 
   <label>Min Salary</label>
-  <input type="number" class="form-control mb-2" [ngModel]="minSalary" (ngModelChange)="minSalaryChange.emit($event)">
+  <input type="number" class="form-control mb-2" [ngModel]="minSalary" (ngModelChange)="minSalaryChange.emit($event)" (keypress)="onKeyPress($event)" min="1">
 
   <label>Max Salary</label>
-  <input type="number" class="form-control mb-2" [ngModel]="maxSalary" (ngModelChange)="maxSalaryChange.emit($event)">
+  <input type="number" class="form-control mb-2" [ngModel]="maxSalary" (ngModelChange)="maxSalaryChange.emit($event)" (keypress)="onKeyPress($event)" min="1">
 
   <button class="btn btn-primary w-100 mb-2" (click)="apply.emit()">Apply</button>
   <button class="btn btn-secondary w-100" (click)="reset.emit()">Reset</button>

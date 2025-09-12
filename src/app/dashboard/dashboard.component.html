@@ -19,7 +19,7 @@
   ></app-sidebar>
 
   <div id="page-content-wrapper" class="flex-grow-1">
-    <app-navbar (toggleBlind)="toggleBlind()" (runShortlist)="runAutoShortlist()"></app-navbar>
+    <app-navbar  (runShortlist)="runAutoShortlist()"></app-navbar>
 
     <div class="container-fluid mt-4">
       <div *ngIf="loading" class="alert alert-info">Loading candidates...</div>
@@ -28,9 +28,13 @@
         <div class="col-md-7">
           <h5>Candidate Results ({{ filteredCandidates.length }})</h5>
           <div *ngFor="let c of filteredCandidates" class="card mb-3 shadow-sm p-3">
-            <h6>{{ blindMode ? 'Candidate' : (c.name || c.email) }}</h6>
+            <!-- <h6>{{ blindMode ? 'Candidate' : (c.name || c.email) }}</h6> -->
+            <h6><b>Name: </b>{{c.name || ''}}</h6>
+            <p><b>Email: </b>{{c.email || ''}}</p>
             <p><b>Skills:</b> {{ (c.skills || []).join(', ') }}</p>
-            <p><b>Location:</b> {{ blindMode ? 'Hidden' : (c.location || '—') }}</p>
+            <!-- <p><b>Location:</b> {{ blindMode ? 'Hidden' : (c.location || '—') }}</p> -->
+            <p><b>Location:</b> {{ (c.location || '—') }}</p>
+
             <p><b>Salary Expectation:</b> {{ c.annual_salary_expectation['full-time'] ? ( c.annual_salary_expectation['full-time']) : '—' }}</p>
             <p><b>Experience:</b> {{ c.work_experiences?.length }} years</p>
           </div>
