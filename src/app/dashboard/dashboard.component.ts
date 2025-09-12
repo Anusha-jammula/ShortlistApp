@@ -29,6 +29,7 @@ export class DashboardComponent implements OnInit {
   selectedLocations: string[] = [];
   minSalary: number | null = null;
   maxSalary: number | null = null;
+  years: number | null = null;
   blindMode = true;
 
   diversity: DiversitySummary | null = null;
@@ -62,6 +63,19 @@ export class DashboardComponent implements OnInit {
   }
 
   applyFilters(): void {
+    // Validate salary range
+    if (this.minSalary !== null && (this.minSalary < 50000 || this.minSalary > 200000) || (this.maxSalary !== null && (50000 > this.maxSalary  || this.maxSalary > 200000))) {
+      this.minSalary = null;
+      this.maxSalary = null;
+      alert('Minimum salary must be at least $50,000');
+      return;
+    }
+    if (this.maxSalary !== null && (50000 > this.maxSalary  || this.maxSalary > 200000)) {
+      this.maxSalary = null;
+      alert('Maximum salary must be in between $50,000 and $200,000');
+      return;
+    }
+
     this.filteredCandidates = this.allCandidates.filter((c: Candidate) => {
       const hasSelectedSkills = this.selectedSkills.length > 0;
       const skillMatch = hasSelectedSkills
@@ -73,10 +87,12 @@ export class DashboardComponent implements OnInit {
         ? this.selectedLocations.map(l => l.toLowerCase()).includes((c.location || '').toLowerCase())
         : true;
 
-      const minSalaryMatch = this.minSalary !== null ? (c.salary_number ?? Infinity) >= this.minSalary : true;
-      const maxSalaryMatch = this.maxSalary !== null ? (c.salary_number ?? 0) <= this.maxSalary : true;
+      const minSalaryMatch = this.minSalary !== null ? (c.annual_salary_expectation['full-time'] ?? Infinity) >= ('$'+this.minSalary.toString()) : true;
+      const maxSalaryMatch = this.maxSalary !== null ? (c.annual_salary_expectation['full-time'] ?? 0) <= ('$'+this.maxSalary.toString()) : true;
 
-      return skillMatch && locationMatch && minSalaryMatch && maxSalaryMatch;
+      const yearsMatch = this.years !== null ? (c.work_experiences?.length || 0) >= this.years : true;
+
+      return skillMatch && locationMatch && minSalaryMatch && maxSalaryMatch && yearsMatch;
     });
     this.shortlisted = [];
     this.diversity = null;
@@ -87,6 +103,7 @@ export class DashboardComponent implements OnInit {
     this.selectedLocations = [];
     this.minSalary = null;
     this.maxSalary = null;
+    this.years = null;
     this.filteredCandidates = [...this.allCandidates];
     this.shortlisted = [];
     this.diversity = null;
@@ -97,7 +114,7 @@ export class DashboardComponent implements OnInit {
       mustHaveSkills: this.selectedSkills,
       targetCount: 5
     });
-    this.filteredCandidates = top;
+    // this.filteredCandidates = top;
     this.shortlisted = top;
     this.diversity = this.computeDiversity(top);
   }

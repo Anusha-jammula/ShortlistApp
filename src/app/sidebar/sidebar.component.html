@@ -45,6 +45,9 @@
     <span *ngFor="let l of selectedLocations" class="badge bg-success me-1">{{ l }}</span>
   </div>
 
+  <label>Enter Years of Experience</label>
+  <input type="number" class="form-control mb-2" [ngModel]="years" (ngModelChange)="yearsChange.emit($event)">
+
   <label>Min Salary</label>
   <input type="number" class="form-control mb-2" [ngModel]="minSalary" (ngModelChange)="minSalaryChange.emit($event)">
 

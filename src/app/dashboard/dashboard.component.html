@@ -6,11 +6,13 @@
     [selectedLocations]="selectedLocations"
     [minSalary]="minSalary"
     [maxSalary]="maxSalary"
+    [years]="years"
     [blindMode]="blindMode"
     (selectedSkillsChange)="selectedSkills=$event"
     (selectedLocationsChange)="selectedLocations=$event"
     (minSalaryChange)="minSalary=$event"
     (maxSalaryChange)="maxSalary=$event"
+    (yearsChange)="years=$event"
     (blindModeChange)="blindMode=$event"
     (apply)="applyFilters()"
     (reset)="resetFilters()"
@@ -29,7 +31,7 @@
             <h6>{{ blindMode ? 'Candidate' : (c.name || c.email) }}</h6>
             <p><b>Skills:</b> {{ (c.skills || []).join(', ') }}</p>
             <p><b>Location:</b> {{ blindMode ? 'Hidden' : (c.location || '—') }}</p>
-            <p><b>Salary Expectation:</b> {{ c.annual_salary_expectation['full-time'] ? ('$' + c.annual_salary_expectation['full-time']) : '—' }}</p>
+            <p><b>Salary Expectation:</b> {{ c.annual_salary_expectation['full-time'] ? ( c.annual_salary_expectation['full-time']) : '—' }}</p>
             <p><b>Experience:</b> {{ c.work_experiences?.length }} years</p>
           </div>
         </div>

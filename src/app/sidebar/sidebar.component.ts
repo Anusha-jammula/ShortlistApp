@@ -15,6 +15,7 @@ export class SidebarComponent {
   @Input() selectedLocations: string[] = [];
   @Input() minSalary: number | null = null;
   @Input() maxSalary: number | null = null;
+  @Input() years: number | null = null;
   @Input() blindMode = true;
 
   // open states
@@ -28,6 +29,7 @@ export class SidebarComponent {
   @Output() selectedLocationsChange = new EventEmitter<string[]>();
   @Output() minSalaryChange = new EventEmitter<number | null>();
   @Output() maxSalaryChange = new EventEmitter<number | null>();
+  @Output() yearsChange = new EventEmitter<number | null>();
   @Output() blindModeChange = new EventEmitter<boolean>();
 
   toggleSkillsDropdown() { this.skillsOpen = !this.skillsOpen; }
