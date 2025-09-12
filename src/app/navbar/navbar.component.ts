@@ -6,8 +6,8 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
-  // @Output() toggleBlind = new EventEmitter<void>();
   @Output() runShortlist = new EventEmitter<void>();
+  @Output() toggleSidebar = new EventEmitter<void>();
 }
 
 

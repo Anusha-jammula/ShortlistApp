@@ -1,2 +1,58 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.min.css";
+
+/* Global body styling */
+body {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  background-attachment: fixed;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Enhanced card styling */
+.card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Button enhancements */
+.btn-primary {
+  background: rgba(135, 206, 250, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(135, 206, 250, 0.3);
+  color: #1e3c72;
+  box-shadow: 0 4px 15px rgba(135, 206, 250, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: rgba(135, 206, 250, 0.3);
+  border-color: rgba(135, 206, 250, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(135, 206, 250, 0.4);
+}
+
+.btn-secondary {
+  background: rgba(173, 216, 230, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(173, 216, 230, 0.3);
+  color: #1e3c72;
+  box-shadow: 0 4px 15px rgba(173, 216, 230, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(173, 216, 230, 0.3);
+  border-color: rgba(173, 216, 230, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(173, 216, 230, 0.4);
+}

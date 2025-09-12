@@ -30,7 +30,7 @@ export class SidebarComponent {
   @Output() minSalaryChange = new EventEmitter<number | null>();
   @Output() maxSalaryChange = new EventEmitter<number | null>();
   @Output() yearsChange = new EventEmitter<number | null>();
-  @Output() blindModeChange = new EventEmitter<boolean>();
+  // @Output() blindModeChange = new EventEmitter<boolean>();
 
   toggleSkillsDropdown() { this.skillsOpen = !this.skillsOpen; }
   toggleLocationsDropdown() { this.locationsOpen = !this.locationsOpen; }

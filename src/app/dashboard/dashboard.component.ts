@@ -30,9 +30,10 @@ export class DashboardComponent implements OnInit {
   minSalary: number | null = null;
   maxSalary: number | null = null;
   years: number | null = null;
-  blindMode = true;
 
   diversity: DiversitySummary | null = null;
+  activeTab = 'results'; // Track active tab
+  sidebarOpen = true; // Track sidebar visibility
 
   constructor(private cs: CandidateService) {}
 
@@ -116,7 +117,13 @@ export class DashboardComponent implements OnInit {
     this.diversity = this.computeDiversity(top);
   }
 
-  // toggleBlind(): void { this.blindMode = !this.blindMode; }
+  setActiveTab(tab: string): void {
+    this.activeTab = tab;
+  }
+
+  toggleSidebar(): void {
+    this.sidebarOpen = !this.sidebarOpen;
+  }
 
   private computeDiversity(list: Candidate[]): DiversitySummary {
     const total = list.length;

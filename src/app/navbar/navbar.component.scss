@@ -1,10 +1,27 @@
 .navbar {
-  background: linear-gradient(90deg, #ffffff 0%, #f8fafc 100%);
-  border-bottom: 1px solid #e5e7eb !important;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  background: linear-gradient(90deg, #1e3c72 0%, #2a5298 100%);
+  border-bottom: 2px solid rgba(255,255,255,0.15) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
   position: sticky;
   top: 0;
   z-index: 100;
+  backdrop-filter: blur(10px);
+}
+
+.navbar-brand {
+  color: white !important;
+  font-weight: 900;
+  font-size: 2rem;
+}
+
+.navbar .btn {
+  color: white;
+  border-color: rgba(255,255,255,0.3);
+}
+
+.navbar .btn:hover {
+  background-color: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.5);
 }
 
 

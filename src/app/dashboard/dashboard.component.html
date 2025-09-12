@@ -7,65 +7,136 @@
     [minSalary]="minSalary"
     [maxSalary]="maxSalary"
     [years]="years"
-    [blindMode]="blindMode"
     (selectedSkillsChange)="selectedSkills=$event"
     (selectedLocationsChange)="selectedLocations=$event"
     (minSalaryChange)="minSalary=$event"
     (maxSalaryChange)="maxSalary=$event"
     (yearsChange)="years=$event"
-    (blindModeChange)="blindMode=$event"
     (apply)="applyFilters()"
     (reset)="resetFilters()"
+    [ngClass]="{'d-none': !sidebarOpen, 'd-lg-block': true}"
   ></app-sidebar>
 
   <div id="page-content-wrapper" class="flex-grow-1">
-    <app-navbar  (runShortlist)="runAutoShortlist()"></app-navbar>
+    <app-navbar (runShortlist)="runAutoShortlist()" (toggleSidebar)="toggleSidebar()"></app-navbar>
 
     <div class="container-fluid mt-4">
       <div *ngIf="loading" class="alert alert-info">Loading candidates...</div>
 
-      <div class="row" *ngIf="!loading">
-        <div class="col-md-7">
-          <h5>Candidate Results ({{ filteredCandidates.length }})</h5>
-          <div *ngFor="let c of filteredCandidates" class="card mb-3 shadow-sm p-3">
-            <!-- <h6>{{ blindMode ? 'Candidate' : (c.name || c.email) }}</h6> -->
-            <h6><b>Name: </b>{{c.name || ''}}</h6>
-            <p><b>Email: </b>{{c.email || ''}}</p>
-            <p><b>Skills:</b> {{ (c.skills || []).join(', ') }}</p>
-            <!-- <p><b>Location:</b> {{ blindMode ? 'Hidden' : (c.location || '—') }}</p> -->
-            <p><b>Location:</b> {{ (c.location || '—') }}</p>
+      <div *ngIf="!loading">
+        <!-- Tab Navigation -->
+        <ul class="nav nav-tabs custom-tabs mb-4" id="candidateTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link custom-tab-btn" 
+                    [class.active]="activeTab === 'results'"
+                    (click)="setActiveTab('results')"
+                    type="button">
+              <i class="fas fa-users me-2"></i>Candidate Results ({{ filteredCandidates.length }})
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link custom-tab-btn" 
+                    [class.active]="activeTab === 'shortlist'"
+                    (click)="setActiveTab('shortlist')"
+                    type="button">
+              <i class="fas fa-star me-2"></i>Shortlist Summary ({{ shortlisted.length }})
+            </button>
+          </li>
+        </ul>
 
-            <p><b>Salary Expectation:</b> {{ c.annual_salary_expectation['full-time'] ? ( c.annual_salary_expectation['full-time']) : '—' }}</p>
-            <p><b>Experience:</b> {{ c.work_experiences?.length }} years</p>
+        <!-- Tab Content -->
+        <div class="tab-content" id="candidateTabsContent">
+          <!-- Candidate Results Tab -->
+          <div *ngIf="activeTab === 'results'" class="tab-pane fade show active" id="results" role="tabpanel" aria-labelledby="results-tab">
+            <div class="row">
+              <div class="col-12">
+                <div *ngFor="let c of filteredCandidates; let i = index" 
+                     class="card mb-3 shadow-sm p-3 candidate-card" 
+                     [ngClass]="{'card-primary': i % 2 === 0, 'card-secondary': i % 2 === 1}">
+                  <h6><b>Name: </b>{{c.name || ''}}</h6>
+                  <p><b>Email: </b>{{c.email || ''}}</p>
+                  <p><b>Skills:</b> {{ (c.skills || []).join(', ') }}</p>
+                  <p><b>Location:</b> {{ (c.location || '—') }}</p>
+                  <p><b>Salary Expectation:</b> {{ c.annual_salary_expectation['full-time'] ? ( c.annual_salary_expectation['full-time']) : '—' }}</p>
+                  <p><b>Experience:</b> {{ c.work_experiences?.length }} years</p>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="col-md-5">
-          <div class="card mb-3">
-            <div class="card-body">
-              <h5 class="card-title mb-3">Shortlist Summary</h5>
-              <div *ngIf="!shortlisted.length" class="text-muted">No shortlist yet. Click Auto Shortlist.</div>
-              <div *ngIf="shortlisted.length">
-                <ul class="list-unstyled small mb-3">
-                  <li><b>Total</b>: {{ diversity?.total }}</li>
-                  <li><b>Unique locations</b>: {{ diversity?.uniqueLocations }}</li>
-                  <li><b>Avg experience</b>: {{ diversity?.avgExperience }} yrs</li>
-                  <li><b>Top-school backgrounds</b>: {{ diversity?.topSchoolCount }}</li>
-                  <li><b>Skills covered</b>: {{ diversity?.skillsCovered }}</li>
-                </ul>
-                <div *ngFor="let s of shortlisted" class="border rounded p-2 mb-2">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                      <div class="fw-semibold">{{ blindMode ? 'Candidate' : (s.name || s.email) }}</div>
-                      <div class="text-muted small">{{ blindMode ? '' : (s.location || '') }}</div>
-                      <div class="small mt-1">
-                        <p><b>Salary Expectation:</b> {{ s.annual_salary_expectation['full-time'] ? ('$' + s.annual_salary_expectation['full-time']) : '—' }}</p>
-            <p><b>Experience:</b> {{ s.work_experiences?.length }} years</p>
+
+          <!-- Shortlist Summary Tab -->
+          <div *ngIf="activeTab === 'shortlist'" class="tab-pane fade show active" id="shortlist" role="tabpanel" aria-labelledby="shortlist-tab">
+            <div class="row">
+              <div class="col-12">
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <div *ngIf="!shortlisted.length" class="text-center text-muted py-5">
+                      <i class="fas fa-star fa-3x mb-3 text-muted"></i>
+                      <h5>No shortlist yet</h5>
+                      <p>Click "Auto Shortlist" to generate your top 5 candidates</p>
+                    </div>
+                    <div *ngIf="shortlisted.length">
+                      <!-- Diversity Summary -->
+                      <div class="row mb-4">
+                        <div class="col-md-12">
+                          <h6 class="text-primary mb-3"><i class="fas fa-chart-bar me-2"></i>Diversity Summary</h6>
+                          <div class="row">
+                            <div class="col-md-2 col-6 mb-2">
+                              <div class="text-center p-2 bg-light rounded">
+                                <div class="fw-bold text-primary">{{ diversity?.total }}</div>
+                                <small class="text-muted">Total</small>
+                              </div>
+                            </div>
+                            <div class="col-md-2 col-6 mb-2">
+                              <div class="text-center p-2 bg-light rounded">
+                                <div class="fw-bold text-success">{{ diversity?.uniqueLocations }}</div>
+                                <small class="text-muted">Locations</small>
+                              </div>
+                            </div>
+                            <div class="col-md-2 col-6 mb-2">
+                              <div class="text-center p-2 bg-light rounded">
+                                <div class="fw-bold text-info">{{ diversity?.avgExperience }}</div>
+                                <small class="text-muted">Avg Exp</small>
+                              </div>
+                            </div>
+                            <div class="col-md-2 col-6 mb-2">
+                              <div class="text-center p-2 bg-light rounded">
+                                <div class="fw-bold text-warning">{{ diversity?.topSchoolCount }}</div>
+                                <small class="text-muted">Top Schools</small>
+                              </div>
+                            </div>
+                            <div class="col-md-2 col-6 mb-2">
+                              <div class="text-center p-2 bg-light rounded">
+                                <div class="fw-bold text-danger">{{ diversity?.skillsCovered }}</div>
+                                <small class="text-muted">Skills</small>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Shortlisted Candidates -->
+                      <h6 class="text-primary mb-3"><i class="fas fa-trophy me-2"></i>Selected Candidates</h6>
+                      <div *ngFor="let s of shortlisted; let i = index" 
+                           class="border rounded p-3 mb-3 shortlist-card" 
+                           [ngClass]="{'shortlist-primary': i % 2 === 0, 'shortlist-secondary': i % 2 === 1}">
+                        <div class="d-flex justify-content-between align-items-start">
+                          <div>
+                            <div class="fw-semibold"><b>Name: </b>{{(s.name || '') }}</div>
+                            <div class="text-muted small"><b>Location: </b>{{(s.location || '') }}</div>
+                            <div class="small mt-1">
+                              <p><b>Email: </b>{{s.email || ''}}</p>
+                              <p><b>Salary Expectation:</b> {{ s.annual_salary_expectation['full-time'] ? ('$' + s.annual_salary_expectation['full-time']) : '—' }}</p>
+                              <p><b>Experience:</b> {{ s.work_experiences?.length }} years</p>
+                            </div>
+                          </div>
+                          <span class="badge bg-primary">Score: {{ s.score }}</span>
+                        </div>
+                        <div class="small mt-2">
+                          <b>Why selected:</b> {{ s.explanation || '—' }}
+                        </div>
                       </div>
                     </div>
-                    <span class="badge bg-primary">Score: {{ s.score }}</span>
-                  </div>
-                  <div class="small mt-2">
-                    <b>Why selected:</b> {{ s.explanation || '—' }}
                   </div>
                 </div>
               </div>
