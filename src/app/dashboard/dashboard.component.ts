@@ -97,6 +97,7 @@ export class DashboardComponent implements OnInit {
       mustHaveSkills: this.selectedSkills,
       targetCount: 5
     });
+    this.filteredCandidates = top;
     this.shortlisted = top;
     this.diversity = this.computeDiversity(top);
   }

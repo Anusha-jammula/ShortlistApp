@@ -29,8 +29,8 @@
             <h6>{{ blindMode ? 'Candidate' : (c.name || c.email) }}</h6>
             <p><b>Skills:</b> {{ (c.skills || []).join(', ') }}</p>
             <p><b>Location:</b> {{ blindMode ? 'Hidden' : (c.location || '—') }}</p>
-            <p><b>Salary Expectation:</b> {{ c.salary_number ? ('$' + c.salary_number) : '—' }}</p>
-            <p><b>Experience:</b> {{ c.years_experience || 0 }} years</p>
+            <p><b>Salary Expectation:</b> {{ c.annual_salary_expectation['full-time'] ? ('$' + c.annual_salary_expectation['full-time']) : '—' }}</p>
+            <p><b>Experience:</b> {{ c.work_experiences?.length }} years</p>
           </div>
         </div>
         <div class="col-md-5">
@@ -52,8 +52,8 @@
                       <div class="fw-semibold">{{ blindMode ? 'Candidate' : (s.name || s.email) }}</div>
                       <div class="text-muted small">{{ blindMode ? '' : (s.location || '') }}</div>
                       <div class="small mt-1">
-                        <span class="badge bg-light text-dark me-1">Exp: {{ s.years_experience || 0 }} yrs</span>
-                        <span class="badge bg-light text-dark">Salary: {{ s.salary_number ? ('$' + s.salary_number) : '—' }}</span>
+                        <p><b>Salary Expectation:</b> {{ s.annual_salary_expectation['full-time'] ? ('$' + s.annual_salary_expectation['full-time']) : '—' }}</p>
+            <p><b>Experience:</b> {{ s.work_experiences?.length }} years</p>
                       </div>
                     </div>
                     <span class="badge bg-primary">Score: {{ s.score }}</span>
