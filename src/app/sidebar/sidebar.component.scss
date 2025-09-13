@@ -8,7 +8,7 @@
   align-self: flex-start;
   height: 100vh;
   overflow-y: auto;
-  overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-x: hidden;
   border-right: 3px solid rgba(255,255,255,0.1);
   transition: all 0.3s ease;
   display: block !important;
@@ -16,68 +16,32 @@
   opacity: 1 !important;
 }
 
-/* Mobile sidebar styles */
-@media (max-width: 991.98px) {
-  #sidebar-wrapper {
-    position: fixed !important;
-    top: 0 !important;
-    z-index: 1050 !important;
-    width: 280px !important;
-    height: 100vh !important;
-    box-shadow: 4px 0 20px rgba(0,0,0,0.3) !important;
-    transition: left 0.3s ease-in-out !important;
-    /* Left position will be controlled by inline styles */
-  }
-}
-
-@media (max-width: 575.98px) {
-  #sidebar-wrapper {
-    width: 100vw;
-    max-width: 320px;
-  }
-}
-
-/* Mobile-specific sidebar improvements */
-@media (max-width: 991.98px) {
-  #sidebar-wrapper {
-    padding: 1rem;
-    /* Prevent sidebar from closing when mobile keyboard opens */
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-  }
-  
-  #sidebar-wrapper h5 {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
-  }
-  
-  #sidebar-wrapper label {
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-  }
-  
-  #sidebar-wrapper .btn {
-    font-size: 0.9rem;
-    padding: 0.5rem 0.75rem;
-  }
-  
-  #sidebar-wrapper .form-control {
-    font-size: 0.9rem;
-    padding: 0.5rem 0.75rem;
-  }
-  
-  #sidebar-wrapper .badge {
-    font-size: 0.75rem;
-    margin-bottom: 0.25rem;
-  }
-}
-
 .list-group {
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+  
+  .list-group-item {
+    color: #000000 !important;
+    background-color: #ffffff;
+    border: 1px solid rgba(0,0,0,0.125);
+    
+    &:hover {
+      background-color: #f8f9fa;
+      color: #000000 !important;
+    }
+    
+    .form-check-label {
+      color: #000000 !important;
+      font-weight: 500;
+    }
+    
+    .fw-semibold {
+      color: #000000 !important;
+      font-weight: 600;
+    }
+  }
 }
 
 .list-group-item.sticky-top {
@@ -85,7 +49,6 @@
   z-index: 1010;
 }
 
-/* Range slider styling */
 .range-slider-container {
   padding: 0.5rem 0;
   
@@ -155,7 +118,6 @@
   }
 }
 
-/* Style text-muted elements to match sidebar background */
 #sidebar-wrapper {
   .text-muted {
     color: rgba(255,255,255,0.9) !important;
@@ -167,14 +129,12 @@
     margin: 0.125rem;
   }
   
-  /* Override Bootstrap text-muted for better visibility */
   small.text-muted {
     background: rgba(255,255,255,0.15);
     color: rgba(255,255,255,0.95) !important;
     font-weight: 500;
   }
   
-  /* Style labels to be more prominent */
   label {
     color: rgba(255,255,255,0.95) !important;
     font-weight: 600;
@@ -184,13 +144,36 @@
   }
 }
 
-/* Prevent sidebar from closing when range slider is focused on mobile */
 @media (max-width: 991.98px) {
-  #sidebar-wrapper input[type="range"]:focus {
+  #sidebar-wrapper {
+    position: fixed !important;
+    top: 0 !important;
+    z-index: 1050 !important;
+    width: 280px !important;
+    height: 100vh !important;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.3) !important;
+    transition: left 0.3s ease-in-out !important;
+    padding: 1rem;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    
+    h5 { font-size: 1.25rem; margin-bottom: 1rem; }
+    label { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .btn { font-size: 0.9rem; padding: 0.5rem 0.75rem; }
+    .form-control { font-size: 0.9rem; padding: 0.5rem 0.75rem; }
+    .badge { font-size: 0.75rem; margin-bottom: 0.25rem; }
+    
+    input[type="range"]:focus {
       position: relative;
       z-index: 1051;
       transform: translateZ(0);
     }
   }
+}
 
-
+@media (max-width: 575.98px) {
+  #sidebar-wrapper {
+    width: 100vw;
+    max-width: 320px;
+  }
+}

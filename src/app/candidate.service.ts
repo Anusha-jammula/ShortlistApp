@@ -33,8 +33,7 @@ export class CandidateService {
       years_experience: item.work_experiences?.length || 0,
       salary_number: this.parseSalary(item.annual_salary_expectation?.['full-time']),
       score: 0,
-      explanation: '',
-      selected: false
+      explanation: ''
     }));
   }
 

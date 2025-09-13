@@ -36,7 +36,6 @@ export interface WorkExperience {
     years_experience?: number;
     score?: number;
     explanation?: string; 
-    selected?: boolean;
     salary_number?: number;
   }
   

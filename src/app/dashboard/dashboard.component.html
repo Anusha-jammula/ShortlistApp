@@ -10,6 +10,7 @@
     (selectedLocationsChange)="onLocationsChange($event)"
     (salaryChange)="onSalaryChange($event)"
     (yearsChange)="onYearsChange($event)"
+    (okButtonClicked)="onOkButtonClicked($event)"
     (reset)="resetFilters()"
     (closeSidebar)="toggleSidebar()"
     #sidebarRef
@@ -31,7 +32,7 @@
   <div *ngIf="sidebarOpen" class="mobile-overlay d-lg-none" (click)="toggleSidebar()"></div>
 
   <div id="page-content-wrapper" class="flex-grow-1">
-    <app-navbar (runShortlist)="runAutoShortlist()" (toggleSidebar)="toggleSidebar()" (refreshData)="refreshData()"></app-navbar>
+    <app-navbar [showShortlistButton]="filteredCandidates.length > 0" (runShortlist)="runAutoShortlist()" (toggleSidebar)="toggleSidebar()" (refreshData)="refreshData()"></app-navbar>
 
     <div class="container-fluid mt-3 pb-4">
       <div *ngIf="loading" class="alert alert-info">
@@ -57,7 +58,7 @@
               <i class="bi bi-people me-2"></i>Candidate Results ({{ filteredCandidates.length }})
             </button>
           </li>
-          <li class="nav-item" role="presentation">
+          <li class="nav-item" role="presentation" *ngIf="filteredCandidates.length > 0">
             <button class="nav-link custom-tab-btn" 
                     [class.active]="activeTab === 'shortlist'"
                     (click)="setActiveTab('shortlist')"
@@ -73,6 +74,18 @@
           <div *ngIf="activeTab === 'results'" class="tab-pane fade show active" id="results" role="tabpanel" aria-labelledby="results-tab">
             <div class="row">
               <div class="col-12">
+                <div *ngIf="filteredCandidates.length === 0" class="no-candidates-message text-center py-5">
+                  <div class="card border-0 shadow-sm">
+                    <div class="card-body py-5">
+                      <i class="bi bi-search text-muted" style="font-size: 4rem;"></i>
+                      <h4 class="text-muted mt-3 mb-3">No Candidates Found</h4>
+                      <p class="text-muted mb-4">
+                        No candidates match your current filter criteria. Try adjusting your filters to see more results.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
                 <div *ngFor="let c of filteredCandidates; let i = index; trackBy: trackByCandidate" 
                      class="card mb-3 shadow-sm p-3 candidate-card" 
                      [ngClass]="{'card-primary': i % 2 === 0, 'card-secondary': i % 2 === 1}">
@@ -80,8 +93,8 @@
                   <p><b>Email: </b>{{c.email || ''}}</p>
                   <p><b>Skills:</b> {{ (c.skills || []).join(', ') }}</p>
                   <p><b>Location:</b> {{ (c.location || '—') }}</p>
-                  <p><b>Salary Expectation:</b> {{ c.annual_salary_expectation['full-time'] ? ( c.annual_salary_expectation['full-time']) : '—' }}</p>
-                  <p><b>Experience:</b> {{ c.work_experiences?.length }} years</p>
+                  <p><b>Salary Expectation:</b> {{ c.salary_number ? ( '$'+c.salary_number) : '—' }}</p>
+                  <p><b>Experience:</b> {{ c.years_experience }} years</p>
                 </div>
               </div>
             </div>
@@ -102,36 +115,17 @@
                       <!-- Diversity Summary -->
                       <div class="row mb-4">
                         <div class="col-md-12">
-                          <h6 class="text-primary mb-3"><i class="bi bi-bar-chart me-2"></i>Diversity Summary</h6>
+                          <h6 class="text-primary mb-3">
+                            <i class="bi bi-bar-chart me-2"></i>Diversity Summary
+                          </h6>
                           <div class="row">
-                            <div class="col-md-2 col-6 mb-2">
+                            <div
+                              class="col-md-2 col-6 mb-2"
+                              *ngFor="let item of diversityMetrics"
+                            >
                               <div class="text-center p-2 bg-light rounded">
-                                <div class="fw-bold text-primary">{{ diversity?.total }}</div>
-                                <small class="text-muted">Total</small>
-                              </div>
-                            </div>
-                            <div class="col-md-2 col-6 mb-2">
-                              <div class="text-center p-2 bg-light rounded">
-                                <div class="fw-bold text-success">{{ diversity?.uniqueLocations }}</div>
-                                <small class="text-muted">Locations</small>
-                              </div>
-                            </div>
-                            <div class="col-md-2 col-6 mb-2">
-                              <div class="text-center p-2 bg-light rounded">
-                                <div class="fw-bold text-info">{{ diversity?.avgExperience }}</div>
-                                <small class="text-muted">Avg Exp</small>
-                              </div>
-                            </div>
-                            <div class="col-md-2 col-6 mb-2">
-                              <div class="text-center p-2 bg-light rounded">
-                                <div class="fw-bold text-warning">{{ diversity?.topSchoolCount }}</div>
-                                <small class="text-muted">Top Schools</small>
-                              </div>
-                            </div>
-                            <div class="col-md-2 col-6 mb-2">
-                              <div class="text-center p-2 bg-light rounded">
-                                <div class="fw-bold text-danger">{{ diversity?.skillsCovered }}</div>
-                                <small class="text-muted">Skills</small>
+                                <div class="fw-bold text-{{ item.color }}">{{ item.value }}</div>
+                                <small class="text-muted">{{ item.label }}</small>
                               </div>
                             </div>
                           </div>
@@ -149,8 +143,8 @@
                             <div class="text-muted small"><b>Location: </b>{{(s.location || '') }}</div>
                             <div class="small mt-1">
                               <p><b>Email: </b>{{s.email || ''}}</p>
-                              <p><b>Salary Expectation:</b> {{ s.annual_salary_expectation['full-time'] ? ('$' + s.annual_salary_expectation['full-time']) : '—' }}</p>
-                              <p><b>Experience:</b> {{ s.work_experiences?.length }} years</p>
+                              <p><b>Salary Expectation:</b> {{ s.salary_number ? ('$' + s.salary_number) : '—' }}</p>
+                              <p><b>Experience:</b> {{ s.years_experience }} years</p>
                             </div>
                           </div>
                           <span class="badge bg-primary">Score: {{ s.score }}</span>

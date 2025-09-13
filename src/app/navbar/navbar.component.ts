@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -7,6 +7,7 @@ import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angul
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavbarComponent {
+  @Input() showShortlistButton = true;
   @Output() runShortlist = new EventEmitter<void>();
   @Output() toggleSidebar = new EventEmitter<void>();
   @Output() refreshData = new EventEmitter<void>();

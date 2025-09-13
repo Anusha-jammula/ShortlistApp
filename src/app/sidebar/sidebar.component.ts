@@ -16,8 +16,6 @@ export class SidebarComponent {
   @Input() selectedLocations: string[] = [];
   @Input() salary: number | null = null;
   @Input() years: number | null = null;
-  @Input() blindMode = true;
-
   // open states
   skillsOpen = false;
   locationsOpen = false;
@@ -29,6 +27,7 @@ export class SidebarComponent {
   @Output() selectedLocationsChange = new EventEmitter<string[]>();
   @Output() salaryChange = new EventEmitter<number | null>();
   @Output() yearsChange = new EventEmitter<number | null>();
+  @Output() okButtonClicked = new EventEmitter<'years' | 'salary'>();
 
   toggleSkillsDropdown() { this.skillsOpen = !this.skillsOpen; }
   toggleLocationsDropdown() { this.locationsOpen = !this.locationsOpen; }
@@ -53,8 +52,6 @@ export class SidebarComponent {
     this.selectedLocationsChange.emit(Array.from(next));
   }
 
-
-  // Range slider properties
   yearsMin = 0;
   yearsMax = 15;
   yearsStep = 1;
@@ -63,60 +60,18 @@ export class SidebarComponent {
   salaryMax = 200000;
   salaryStep = 5000;
 
-  // Click tracking for mobile sidebar
-  isAnyElementClicked = false;
-  clickTimeout: any = null;
-  
-  // Track if OK buttons have been clicked
-  yearsOkClicked = false;
-  salaryOkClicked = false;
-
-  onElementClick(): void {
-    this.isAnyElementClicked = true;
-    
-    // Clear any existing timeout
-    if (this.clickTimeout) {
-      clearTimeout(this.clickTimeout);
-    }
-    
-    // Set timeout to reset the flag after 2 seconds
-    this.clickTimeout = setTimeout(() => {
-      this.isAnyElementClicked = false;
-    }, 2000);
-  }
-
-  onElementInteraction(): void {
-    this.isAnyElementClicked = true;
-    
-    // Clear any existing timeout
-    if (this.clickTimeout) {
-      clearTimeout(this.clickTimeout);
-    }
-    
-    // Set timeout to reset the flag after 3 seconds
-    this.clickTimeout = setTimeout(() => {
-      this.isAnyElementClicked = false;
-    }, 3000);
-  }
-
   onOkButtonClick(type: 'years' | 'salary'): void {
-    if (type === 'years') {
-      this.yearsOkClicked = true;
-    } else if (type === 'salary') {
-      this.salaryOkClicked = true;
-    }
-    
-    // Emit the current value to apply the filter
-    if (type === 'years') {
-      this.yearsChange.emit(this.years);
-    } else if (type === 'salary') {
-      this.salaryChange.emit(this.salary);
-    }
+    this.okButtonClicked.emit(type);
   }
 
-  // Check if any OK button has been clicked
-  get hasAnyOkClicked(): boolean {
-    return this.yearsOkClicked || this.salaryOkClicked;
+  onRangeChange(type: 'years' | 'salary', value: number): void {
+    if (type === 'years') {
+      this.years = value;
+      this.yearsChange.emit(value);
+    } else if (type === 'salary') {
+      this.salary = value;
+      this.salaryChange.emit(value);
+    }
   }
 
   trackBySkill(index: number, skill: string): string {
@@ -127,11 +82,6 @@ export class SidebarComponent {
     return location;
   }
 
-  get totalLocationsCount(): number {
-    return this.availableLocations.length;
-  }
-
-  // Helper methods for formatting
   formatYears(value: number | null): string {
     if (value === null || value === 0) return 'Any';
     return `${value}+ years`;

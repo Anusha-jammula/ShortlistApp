@@ -40,6 +40,17 @@ export class DashboardComponent implements OnInit {
 
   @ViewChild('sidebarRef') sidebarRef!: SidebarComponent;
 
+  get diversityMetrics() {
+    if (!this.diversity) return [];
+    return [
+      { value: this.diversity.total, label: 'Total', color: 'primary' },
+      { value: this.diversity.uniqueLocations, label: 'Locations', color: 'success' },
+      { value: this.diversity.avgExperience, label: 'Avg Exp', color: 'info' },
+      { value: this.diversity.topSchoolCount, label: 'Top Schools', color: 'warning' },
+      { value: this.diversity.skillsCovered, label: 'Skills', color: 'danger' },
+    ];
+  }
+
   constructor(private cs: CandidateService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
@@ -59,6 +70,8 @@ export class DashboardComponent implements OnInit {
       next: data => {
         this.allCandidates = data;
         this.filteredCandidates = data;
+        console.log(this.filteredCandidates);
+        
         this.computeAvailableFilters(data);
         this.loading = false;
         this.cdr.detectChanges();
@@ -76,6 +89,8 @@ export class DashboardComponent implements OnInit {
     this.loadCandidates();
     this.shortlisted = [];
     this.diversity = null;
+    this.salary = null;
+    this.years = null;
   }
 
   private initializeSidebarState(): void {
@@ -144,10 +159,12 @@ export class DashboardComponent implements OnInit {
     this.shortlisted = [];
     this.diversity = null;
     
-    // Only close sidebar on mobile if no input is focused
-    if (window.innerWidth < 992) {
-      this.sidebarOpen = false;
+    // If no candidates found, switch to results tab
+    if (this.filteredCandidates.length === 0) {
+      this.activeTab = 'results';
     }
+    
+    // Don't automatically close sidebar - only OK button should close it
   }
 
   resetFilters(): void {
@@ -158,6 +175,7 @@ export class DashboardComponent implements OnInit {
     this.filteredCandidates = [...this.allCandidates];
     this.shortlisted = [];
     this.diversity = null;
+    this.activeTab = 'results'; // Always switch to results tab when resetting
     
     // Only close sidebar on mobile if no input is focused
     if (window.innerWidth < 992) {
@@ -193,43 +211,28 @@ export class DashboardComponent implements OnInit {
     
     // Apply filters immediately when skills change
     this.applyFilters();
-    
-    // Don't close sidebar on mobile if any element is clicked or OK buttons haven't been used
-    if (window.innerWidth < 992 && this.sidebarRef && (this.sidebarRef.isAnyElementClicked || !this.sidebarRef.hasAnyOkClicked)) {
-      return; // Keep sidebar open
-    }
   }
 
   onLocationsChange(newLocations: string[]): void {
     this.selectedLocations = newLocations;
     // Apply filters immediately when locations change
     this.applyFilters();
-    
-    // Don't close sidebar on mobile if any element is clicked or OK buttons haven't been used
-    if (window.innerWidth < 992 && this.sidebarRef && (this.sidebarRef.isAnyElementClicked || !this.sidebarRef.hasAnyOkClicked)) {
-      return; // Keep sidebar open
-    }
   }
 
   onSalaryChange(newSalary: number | null): void {
     this.salary = newSalary;
-    // Apply filters immediately when salary changes
     this.applyFilters();
-    
-    // Don't close sidebar on mobile if any element is clicked or OK buttons haven't been used
-    if (window.innerWidth < 992 && this.sidebarRef && (this.sidebarRef.isAnyElementClicked || !this.sidebarRef.hasAnyOkClicked)) {
-      return; // Keep sidebar open
-    }
   }
 
   onYearsChange(newYears: number | null): void {
     this.years = newYears;
-    // Apply filters immediately when years change
     this.applyFilters();
-    
-    // Don't close sidebar on mobile if any element is clicked or OK buttons haven't been used
-    if (window.innerWidth < 992 && this.sidebarRef && (this.sidebarRef.isAnyElementClicked || !this.sidebarRef.hasAnyOkClicked)) {
-      return; // Keep sidebar open
+  }
+
+  onOkButtonClicked(type: 'years' | 'salary'): void {
+    // OK button clicked - now we can dismiss the sidebar on mobile
+    if (window.innerWidth < 992) {
+      this.sidebarOpen = false;
     }
   }
 
