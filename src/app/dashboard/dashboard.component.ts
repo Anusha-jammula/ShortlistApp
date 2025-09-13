@@ -1,8 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CandidateService } from '../candidate.service';
 import { Candidate } from '../models';
 import { autoShortlist } from '../shortlist-algo';
-import { SidebarComponent } from '../sidebar/sidebar.component';
 
 interface DiversitySummary {
   total: number;
@@ -38,15 +37,11 @@ export class DashboardComponent implements OnInit {
   sidebarOpen = false; // Track sidebar visibility - start closed on mobile
   isMobile = false; // Track if we're on mobile
 
-  @ViewChild('sidebarRef') sidebarRef!: SidebarComponent;
-
   constructor(private cs: CandidateService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    // Initialize sidebar state based on screen size
     this.initializeSidebarState();
     
-    // Listen for window resize events
     window.addEventListener('resize', () => {
       this.initializeSidebarState();
       this.cdr.detectChanges();
@@ -128,7 +123,7 @@ export class DashboardComponent implements OnInit {
     this.diversity = null;
     
     // Only close sidebar on mobile if no input is focused
-    if (window.innerWidth < 992 && (!this.sidebarRef || !this.sidebarRef.isInputFocused)) {
+    if (window.innerWidth < 992) {
       this.sidebarOpen = false;
     }
   }
@@ -144,7 +139,7 @@ export class DashboardComponent implements OnInit {
     this.diversity = null;
     
     // Only close sidebar on mobile if no input is focused
-    if (window.innerWidth < 992 && (!this.sidebarRef || !this.sidebarRef.isInputFocused)) {
+    if (window.innerWidth < 992) {
       this.sidebarOpen = false;
     }
   }
