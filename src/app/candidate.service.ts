@@ -1,16 +1,44 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable, map, shareReplay, catchError, of } from 'rxjs';
 import { Candidate } from './models';
+import { environment } from '../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class CandidateService {
-  private apiUrl = 'https://file.notion.so/f/f/f86ed84d-b33c-4dfb-b0e0-97c5661516a3/3ed586a1-78e7-46af-9cf1-0961f95b5109/form-submissions-1.json?table=block&id=2575392c-c93e-81c2-94b0-f93e6998cce9&spaceId=f86ed84d-b33c-4dfb-b0e0-97c5661516a3&expirationTimestamp=1757682585498&signature=qyWejhUXBpvTfW6_YV4nxy53_1C1BnbBiEipEnc3M94&downloadName=form-submissions.json';
+  private apiUrl = environment.apiUrl;
+  private candidatesCache$: Observable<Candidate[]> | null = null;
+
   constructor(private http: HttpClient) {}
 
-
   getCandidates(): Observable<Candidate[]> {
-    return this.http.get<Candidate[]>(this.apiUrl);
+    if (!this.candidatesCache$) {
+      this.candidatesCache$ = this.http.get<any[]>(this.apiUrl).pipe(
+        map(data => this.normalize(data)),
+        shareReplay(1), // Cache the result
+        catchError(error => {
+          console.error('Error loading candidates:', error);
+          return of([]);
+        })
+      );
+    }
+    return this.candidatesCache$;
   }
- 
+
+  private normalize(rawData: any[]): Candidate[] {
+    return rawData.map(item => ({
+      ...item,
+      years_experience: item.work_experiences?.length || 0,
+      salary_number: this.parseSalary(item.annual_salary_expectation?.['full-time']),
+      score: 0,
+      explanation: '',
+      selected: false
+    }));
+  }
+
+  private parseSalary(salaryStr: string): number {
+    if (!salaryStr) return 0;
+    const cleaned = salaryStr.replace(/[$,]/g, '');
+    return parseInt(cleaned, 10) || 0;
+  }
 }

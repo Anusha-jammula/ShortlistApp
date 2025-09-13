@@ -6,30 +6,7 @@
   overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
-/* Decorative background elements */
-#page-content-wrapper::before,
-#page-content-wrapper::after {
-  content: '';
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.3;
-  pointer-events: none;
-}
-
-#page-content-wrapper::before {
-  background: radial-gradient(circle at center, #1e3c72 0%, transparent 70%);
-  top: -100px;
-  right: -100px;
-}
-
-#page-content-wrapper::after {
-  background: radial-gradient(circle at center, #2a5298 0%, transparent 70%);
-  bottom: -100px;
-  left: -100px;
-}
+/* Simplified background */
 
 /* Candidate card styling with alternate colors */
 .candidate-card {
@@ -38,12 +15,12 @@
 }
 
 .candidate-card.card-primary {
-  background: linear-gradient(135deg, rgba(255, 182, 193, 0.15) 0%, rgba(255, 192, 203, 0.15) 100%);
+  background: rgba(255, 182, 193, 0.1);
   border-left: 4px solid #ffb6c1;
 }
 
 .candidate-card.card-secondary {
-  background: linear-gradient(135deg, rgba(144, 238, 144, 0.15) 0%, rgba(152, 251, 152, 0.15) 100%);
+  background: rgba(144, 238, 144, 0.1);
   border-left: 4px solid #90ee90;
 }
 
@@ -59,12 +36,12 @@
 }
 
 .shortlist-card.shortlist-primary {
-  background: linear-gradient(135deg, rgba(255, 182, 193, 0.2) 0%, rgba(255, 192, 203, 0.2) 100%);
+  background: rgba(255, 182, 193, 0.15);
   border-left: 4px solid #ffb6c1 !important;
 }
 
 .shortlist-card.shortlist-secondary {
-  background: linear-gradient(135deg, rgba(144, 238, 144, 0.2) 0%, rgba(152, 251, 152, 0.2) 100%);
+  background: rgba(144, 238, 144, 0.15);
   border-left: 4px solid #90ee90 !important;
 }
 

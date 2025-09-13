@@ -20,7 +20,7 @@
         <span class="fw-semibold">Select skills</span>
         <button type="button" class="btn btn-sm btn-outline-secondary" (click)="skillsOpen=false" aria-label="Close">&times;</button>
       </li>
-      <li *ngFor="let s of availableSkills" class="list-group-item">
+      <li *ngFor="let s of availableSkills; trackBy: trackBySkill" class="list-group-item">
         <div class="form-check">
           <input class="form-check-input" type="checkbox" [id]="'skill_'+s" [checked]="selectedSkills.includes(s)" (change)="onSkillToggle(s, $event)">
           <label class="form-check-label" [for]="'skill_'+s">{{ s }}</label>
@@ -29,7 +29,7 @@
     </ul>
   </div>
   <div class="mb-2">
-    <span *ngFor="let s of selectedSkills" class="badge bg-primary me-1">{{ s }}</span>
+    <span *ngFor="let s of selectedSkills; trackBy: trackBySkill" class="badge bg-primary me-1">{{ s }}</span>
   </div>
 
   <label>Locations</label>
@@ -42,7 +42,7 @@
         <span class="fw-semibold">Select locations</span>
         <button type="button" class="btn btn-sm btn-outline-secondary" (click)="locationsOpen=false" aria-label="Close">&times;</button>
       </li>
-      <li *ngFor="let l of availableLocations" class="list-group-item">
+      <li *ngFor="let l of availableLocations; trackBy: trackByLocation" class="list-group-item">
         <div class="form-check">
           <input class="form-check-input" type="checkbox" [id]="'loc_'+l" [checked]="selectedLocations.includes(l)" (change)="onLocationToggle(l, $event)">
           <label class="form-check-label" [for]="'loc_'+l">{{ l }}</label>
@@ -51,7 +51,7 @@
     </ul>
   </div>
   <div class="mb-2">
-    <span *ngFor="let l of selectedLocations" class="badge bg-success me-1">{{ l }}</span>
+    <span *ngFor="let l of selectedLocations; trackBy: trackByLocation" class="badge bg-success me-1">{{ l }}</span>
   </div>
 
   <label>Enter Years of Experience</label>

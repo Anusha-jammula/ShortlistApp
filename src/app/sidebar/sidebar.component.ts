@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  styleUrls: ['./sidebar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarComponent {
   // available options
@@ -89,6 +90,15 @@ export class SidebarComponent {
     if (!/^\d+$/.test(pasteData) || (pasteData.startsWith('0') && input.value.length === 0)) {
       event.preventDefault();
     }
+  }
+
+  // TrackBy functions for performance optimization
+  trackBySkill(index: number, skill: string): string {
+    return skill;
+  }
+
+  trackByLocation(index: number, location: string): string {
+    return location;
   }
   
 }

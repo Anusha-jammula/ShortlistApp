@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CandidateService } from '../candidate.service';
 import { Candidate } from '../models';
 import { autoShortlist } from '../shortlist-algo';
@@ -14,7 +14,8 @@ interface DiversitySummary {
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit {
   allCandidates: Candidate[] = [];
@@ -148,6 +149,19 @@ export class DashboardComponent implements OnInit {
 
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;
+  }
+
+  // TrackBy functions for performance optimization
+  trackByCandidate(index: number, candidate: Candidate): string {
+    return candidate.email || index.toString();
+  }
+
+  trackBySkill(index: number, skill: string): string {
+    return skill;
+  }
+
+  trackByLocation(index: number, location: string): string {
+    return location;
   }
 
   private computeDiversity(list: Candidate[]): DiversitySummary {
