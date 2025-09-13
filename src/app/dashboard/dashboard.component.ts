@@ -201,8 +201,8 @@ export class DashboardComponent implements OnInit {
     // Apply filters immediately when skills change
     this.applyFilters();
     
-    // Don't close sidebar on mobile if any element is focused
-    if (window.innerWidth < 992 && this.sidebarRef && this.sidebarRef.isAnyElementFocused) {
+    // Don't close sidebar on mobile if any element is clicked
+    if (window.innerWidth < 992 && this.sidebarRef && this.sidebarRef.isAnyElementClicked) {
       return; // Keep sidebar open
     }
   }
@@ -212,8 +212,8 @@ export class DashboardComponent implements OnInit {
     // Apply filters immediately when locations change
     this.applyFilters();
     
-    // Don't close sidebar on mobile if any element is focused
-    if (window.innerWidth < 992 && this.sidebarRef && this.sidebarRef.isAnyElementFocused) {
+    // Don't close sidebar on mobile if any element is clicked
+    if (window.innerWidth < 992 && this.sidebarRef && this.sidebarRef.isAnyElementClicked) {
       return; // Keep sidebar open
     }
   }
@@ -223,8 +223,8 @@ export class DashboardComponent implements OnInit {
     // Apply filters immediately when min salary changes
     this.applyFilters();
     
-    // Don't close sidebar on mobile if any element is focused
-    if (window.innerWidth < 992 && this.sidebarRef && this.sidebarRef.isAnyElementFocused) {
+    // Don't close sidebar on mobile if any element is clicked
+    if (window.innerWidth < 992 && this.sidebarRef && this.sidebarRef.isAnyElementClicked) {
       return; // Keep sidebar open
     }
   }
@@ -234,8 +234,8 @@ export class DashboardComponent implements OnInit {
     // Apply filters immediately when max salary changes
     this.applyFilters();
     
-    // Don't close sidebar on mobile if any element is focused
-    if (window.innerWidth < 992 && this.sidebarRef && this.sidebarRef.isAnyElementFocused) {
+    // Don't close sidebar on mobile if any element is clicked
+    if (window.innerWidth < 992 && this.sidebarRef && this.sidebarRef.isAnyElementClicked) {
       return; // Keep sidebar open
     }
   }
@@ -245,8 +245,8 @@ export class DashboardComponent implements OnInit {
     // Apply filters immediately when years change
     this.applyFilters();
     
-    // Don't close sidebar on mobile if any element is focused
-    if (window.innerWidth < 992 && this.sidebarRef && this.sidebarRef.isAnyElementFocused) {
+    // Don't close sidebar on mobile if any element is clicked
+    if (window.innerWidth < 992 && this.sidebarRef && this.sidebarRef.isAnyElementClicked) {
       return; // Keep sidebar open
     }
   }

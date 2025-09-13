@@ -69,18 +69,36 @@ export class SidebarComponent {
   maxSalaryMax = 200000;
   maxSalaryStep = 5000;
 
-  // Focus tracking for mobile sidebar
-  isAnyElementFocused = false;
+  // Click tracking for mobile sidebar
+  isAnyElementClicked = false;
+  clickTimeout: any = null;
 
-  onElementFocus(): void {
-    this.isAnyElementFocused = true;
+  onElementClick(): void {
+    this.isAnyElementClicked = true;
+    
+    // Clear any existing timeout
+    if (this.clickTimeout) {
+      clearTimeout(this.clickTimeout);
+    }
+    
+    // Set timeout to reset the flag after 2 seconds
+    this.clickTimeout = setTimeout(() => {
+      this.isAnyElementClicked = false;
+    }, 2000);
   }
 
-  onElementBlur(): void {
-    // Add a small delay to prevent immediate closing when switching between elements
-    setTimeout(() => {
-      this.isAnyElementFocused = false;
-    }, 1000);
+  onElementInteraction(): void {
+    this.isAnyElementClicked = true;
+    
+    // Clear any existing timeout
+    if (this.clickTimeout) {
+      clearTimeout(this.clickTimeout);
+    }
+    
+    // Set timeout to reset the flag after 3 seconds
+    this.clickTimeout = setTimeout(() => {
+      this.isAnyElementClicked = false;
+    }, 3000);
   }
 
   trackBySkill(index: number, skill: string): string {

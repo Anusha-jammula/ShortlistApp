@@ -12,7 +12,7 @@
 
   <label>Skills</label>
   <div class="w-100 mb-2 position-relative">
-    <button class="btn btn-light w-100" type="button" (click)="toggleSkillsDropdown()" (focus)="onElementFocus()" (blur)="onElementBlur()">
+    <button class="btn btn-light w-100" type="button" (click)="onElementClick(); toggleSkillsDropdown()">
       {{ selectedSkills.length ? selectedSkills.length + ' selected' : 'Select skills' }}
     </button>
     <ul class="list-group position-absolute w-100" *ngIf="skillsOpen" style="z-index:1000; max-height: 240px; overflow:auto;">
@@ -34,7 +34,7 @@
 
   <label>Locations</label>
   <div class="w-100 mb-2 position-relative">
-    <button class="btn btn-light w-100" type="button" (click)="toggleLocationsDropdown()" (focus)="onElementFocus()" (blur)="onElementBlur()">
+    <button class="btn btn-light w-100" type="button" (click)="onElementClick(); toggleLocationsDropdown()">
       {{ selectedLocations.length ? selectedLocations.length + ' selected' : 'Select locations' }}
     </button>
     <ul class="list-group position-absolute w-100" *ngIf="locationsOpen" style="z-index:1000; max-height: 240px; overflow:auto;">
@@ -63,9 +63,9 @@
        [max]="yearsMax" 
        [step]="yearsStep"
        [ngModel]="years || yearsMin" 
-       (ngModelChange)="yearsChange.emit($event === yearsMin ? null : $event)"
-       (focus)="onElementFocus()" 
-       (blur)="onElementBlur()"
+       (ngModelChange)="onElementInteraction(); yearsChange.emit($event === yearsMin ? null : $event)"
+       (mousedown)="onElementClick()"
+       (touchstart)="onElementClick()"
        id="yearsRange">
     <div class="range-labels d-flex justify-content-between">
       <small class="text-muted">{{ yearsMin }}+ years</small>
@@ -82,9 +82,9 @@
        [max]="minSalaryMax" 
        [step]="minSalaryStep"
        [ngModel]="minSalary || minSalaryMin" 
-       (ngModelChange)="minSalaryChange.emit($event === minSalaryMin ? null : $event)"
-       (focus)="onElementFocus()" 
-       (blur)="onElementBlur()"
+       (ngModelChange)="onElementInteraction(); minSalaryChange.emit($event === minSalaryMin ? null : $event)"
+       (mousedown)="onElementClick()"
+       (touchstart)="onElementClick()"
        id="minSalaryRange">
     <div class="range-labels d-flex justify-content-between">
       <small class="text-muted">{{ formatSalary(minSalaryMin) }}</small>
@@ -101,9 +101,9 @@
        [max]="maxSalaryMax" 
        [step]="maxSalaryStep"
        [ngModel]="maxSalary || maxSalaryMax" 
-       (ngModelChange)="maxSalaryChange.emit($event === maxSalaryMax ? null : $event)"
-       (focus)="onElementFocus()" 
-       (blur)="onElementBlur()"
+       (ngModelChange)="onElementInteraction(); maxSalaryChange.emit($event === maxSalaryMax ? null : $event)"
+       (mousedown)="onElementClick()"
+       (touchstart)="onElementClick()"
        id="maxSalaryRange">
     <div class="range-labels d-flex justify-content-between">
       <small class="text-muted">{{ formatSalary(maxSalaryMin) }}</small>
@@ -111,7 +111,7 @@
     </div>
   </div>
 
-  <button class="btn btn-secondary w-100 text-white" (click)="reset.emit()" (focus)="onElementFocus()" (blur)="onElementBlur()">
+  <button class="btn btn-secondary w-100 text-white" (click)="onElementClick(); reset.emit()">
     <i class="bi bi-x-circle me-1"></i>Reset All
   </button>
 
