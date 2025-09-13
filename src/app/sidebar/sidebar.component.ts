@@ -80,7 +80,7 @@ export class SidebarComponent {
     // Add a small delay to prevent immediate closing when switching between elements
     setTimeout(() => {
       this.isAnyElementFocused = false;
-    }, 100);
+    }, 1000);
   }
 
   trackBySkill(index: number, skill: string): string {
