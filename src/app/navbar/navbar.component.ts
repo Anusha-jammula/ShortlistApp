@@ -9,6 +9,7 @@ import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angul
 export class NavbarComponent {
   @Output() runShortlist = new EventEmitter<void>();
   @Output() toggleSidebar = new EventEmitter<void>();
+  @Output() refreshData = new EventEmitter<void>();
 }
 
 

@@ -56,6 +56,11 @@
   text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
+/* Gap utility for buttons */
+.gap-2 {
+  gap: 0.5rem;
+}
+
 /* Mobile layout adjustments */
 @media (max-width: 991.98px) {
   .navbar {

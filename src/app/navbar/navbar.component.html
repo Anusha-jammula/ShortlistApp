@@ -10,10 +10,15 @@
       <!-- Center title (mobile) -->
       <h5 class="navbar-brand mb-0 fw-bold text-white text-center flex-grow-1">Hiring Dashboard</h5>
       
-      <!-- Action button (mobile) -->
-      <button class="btn btn-primary btn-sm mobile-action-btn" (click)="runShortlist.emit()">
-        <i class="bi bi-star me-1"></i>Shortlist
-      </button>
+      <!-- Action buttons (mobile) -->
+      <div class="d-flex gap-2">
+        <button class="btn btn-outline-light btn-sm" (click)="refreshData.emit()" title="Refresh Data">
+          <i class="bi bi-arrow-clockwise"></i>
+        </button>
+        <button class="btn btn-primary btn-sm mobile-action-btn" (click)="runShortlist.emit()">
+          <i class="bi bi-star me-1"></i>Shortlist
+        </button>
+      </div>
     </div>
 
     <!-- Desktop Layout -->
@@ -24,8 +29,11 @@
       <!-- Center title (desktop) -->
       <h4 class="navbar-brand mb-0 fw-bold text-white text-center">Hiring Dashboard</h4>
       
-      <!-- Action button (desktop) -->
-      <div class="flex-grow-1 d-flex justify-content-end">
+      <!-- Action buttons (desktop) -->
+      <div class="flex-grow-1 d-flex justify-content-end gap-2">
+        <button class="btn btn-outline-light" (click)="refreshData.emit()" title="Refresh Data">
+          <i class="bi bi-arrow-clockwise me-1"></i>Refresh
+        </button>
         <button class="btn btn-primary desktop-action-btn" (click)="runShortlist.emit()">
           <i class="bi bi-star me-2"></i>Auto Shortlist
         </button>

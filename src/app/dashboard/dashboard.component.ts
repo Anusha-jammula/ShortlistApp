@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CandidateService } from '../candidate.service';
 import { Candidate } from '../models';
 import { autoShortlist } from '../shortlist-algo';
@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit {
   sidebarOpen = false; // Track sidebar visibility - start closed on mobile
   isMobile = false; // Track if we're on mobile
 
-  constructor(private cs: CandidateService) {}
+  constructor(private cs: CandidateService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     // Initialize sidebar state based on screen size
@@ -46,24 +46,38 @@ export class DashboardComponent implements OnInit {
     // Listen for window resize events
     window.addEventListener('resize', () => {
       this.initializeSidebarState();
+      this.cdr.detectChanges();
     });
     
+    this.loadCandidates();
+  }
+
+  private loadCandidates(): void {
+    this.loading = true;
     this.cs.getCandidates().subscribe({
       next: data => {
         this.allCandidates = data;
         this.filteredCandidates = data;
         this.computeAvailableFilters(data);
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: err => {
-        console.error('Error loading candidates', err);
         this.loading = false;
+        this.allCandidates = [];
+        this.filteredCandidates = [];
+        this.cdr.detectChanges();
       }
     });
   }
 
+  refreshData(): void {
+    this.loadCandidates();
+    this.shortlisted = [];
+    this.diversity = null;
+  }
+
   private initializeSidebarState(): void {
-    // Show sidebar by default on desktop, hide on mobile
     this.isMobile = window.innerWidth < 992;
     this.sidebarOpen = window.innerWidth >= 992;
   }
@@ -80,7 +94,6 @@ export class DashboardComponent implements OnInit {
   }
 
   applyFilters(): void {
-    // Validate salary range
     if (this.minSalary !== null && this.minSalary < 50000) {
       alert('Minimum salary must be at least $50,000');
       return;
@@ -111,7 +124,6 @@ export class DashboardComponent implements OnInit {
     this.shortlisted = [];
     this.diversity = null;
     
-    // Close sidebar on mobile after applying filters
     if (window.innerWidth < 992) {
       this.sidebarOpen = false;
     }

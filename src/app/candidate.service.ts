@@ -14,7 +14,9 @@ export class CandidateService {
   getCandidates(): Observable<Candidate[]> {
     if (!this.candidatesCache$) {
       this.candidatesCache$ = this.http.get<any[]>(this.apiUrl).pipe(
-        map(data => this.normalize(data)),
+        map(data => {
+          return this.normalize(data);
+        }),
         shareReplay(1), // Cache the result
         catchError(error => {
           console.error('Error loading candidates:', error);
