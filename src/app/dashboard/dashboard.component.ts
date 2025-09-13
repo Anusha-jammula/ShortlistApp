@@ -1,7 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { CandidateService } from '../candidate.service';
 import { Candidate } from '../models';
 import { autoShortlist } from '../shortlist-algo';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 interface DiversitySummary {
   total: number;
@@ -37,6 +38,8 @@ export class DashboardComponent implements OnInit {
   activeTab = 'results'; // Track active tab
   sidebarOpen = false; // Track sidebar visibility - start closed on mobile
   isMobile = false; // Track if we're on mobile
+
+  @ViewChild('sidebarRef') sidebarRef!: SidebarComponent;
 
   constructor(private cs: CandidateService, private cdr: ChangeDetectorRef) {}
 
@@ -197,30 +200,55 @@ export class DashboardComponent implements OnInit {
     
     // Apply filters immediately when skills change
     this.applyFilters();
+    
+    // Don't close sidebar on mobile if any element is focused
+    if (window.innerWidth < 992 && this.sidebarRef && this.sidebarRef.isAnyElementFocused) {
+      return; // Keep sidebar open
+    }
   }
 
   onLocationsChange(newLocations: string[]): void {
     this.selectedLocations = newLocations;
     // Apply filters immediately when locations change
     this.applyFilters();
+    
+    // Don't close sidebar on mobile if any element is focused
+    if (window.innerWidth < 992 && this.sidebarRef && this.sidebarRef.isAnyElementFocused) {
+      return; // Keep sidebar open
+    }
   }
 
   onMinSalaryChange(newMinSalary: number | null): void {
     this.minSalary = newMinSalary;
     // Apply filters immediately when min salary changes
     this.applyFilters();
+    
+    // Don't close sidebar on mobile if any element is focused
+    if (window.innerWidth < 992 && this.sidebarRef && this.sidebarRef.isAnyElementFocused) {
+      return; // Keep sidebar open
+    }
   }
 
   onMaxSalaryChange(newMaxSalary: number | null): void {
     this.maxSalary = newMaxSalary;
     // Apply filters immediately when max salary changes
     this.applyFilters();
+    
+    // Don't close sidebar on mobile if any element is focused
+    if (window.innerWidth < 992 && this.sidebarRef && this.sidebarRef.isAnyElementFocused) {
+      return; // Keep sidebar open
+    }
   }
 
   onYearsChange(newYears: number | null): void {
     this.years = newYears;
     // Apply filters immediately when years change
     this.applyFilters();
+    
+    // Don't close sidebar on mobile if any element is focused
+    if (window.innerWidth < 992 && this.sidebarRef && this.sidebarRef.isAnyElementFocused) {
+      return; // Keep sidebar open
+    }
   }
 
   // TrackBy functions for performance optimization

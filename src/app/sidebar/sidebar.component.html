@@ -12,7 +12,7 @@
 
   <label>Skills</label>
   <div class="w-100 mb-2 position-relative">
-    <button class="btn btn-light w-100" type="button" (click)="toggleSkillsDropdown()">
+    <button class="btn btn-light w-100" type="button" (click)="toggleSkillsDropdown()" (focus)="onElementFocus()" (blur)="onElementBlur()">
       {{ selectedSkills.length ? selectedSkills.length + ' selected' : 'Select skills' }}
     </button>
     <ul class="list-group position-absolute w-100" *ngIf="skillsOpen" style="z-index:1000; max-height: 240px; overflow:auto;">
@@ -34,7 +34,7 @@
 
   <label>Locations</label>
   <div class="w-100 mb-2 position-relative">
-    <button class="btn btn-light w-100" type="button" (click)="toggleLocationsDropdown()">
+    <button class="btn btn-light w-100" type="button" (click)="toggleLocationsDropdown()" (focus)="onElementFocus()" (blur)="onElementBlur()">
       {{ selectedLocations.length ? selectedLocations.length + ' selected' : 'Select locations' }}
     </button>
     <ul class="list-group position-absolute w-100" *ngIf="locationsOpen" style="z-index:1000; max-height: 240px; overflow:auto;">
@@ -56,15 +56,17 @@
   
   <label>Years of Experience: {{ formatYears(years) }}</label>
   <div class="range-slider-container mb-3">
-    <input 
-      type="range" 
-      class="form-range" 
-      [min]="yearsMin" 
-      [max]="yearsMax" 
-      [step]="yearsStep"
-      [ngModel]="years || yearsMin" 
-      (ngModelChange)="yearsChange.emit($event === yearsMin ? null : $event)"
-      id="yearsRange">
+     <input 
+       type="range" 
+       class="form-range" 
+       [min]="yearsMin" 
+       [max]="yearsMax" 
+       [step]="yearsStep"
+       [ngModel]="years || yearsMin" 
+       (ngModelChange)="yearsChange.emit($event === yearsMin ? null : $event)"
+       (focus)="onElementFocus()" 
+       (blur)="onElementBlur()"
+       id="yearsRange">
     <div class="range-labels d-flex justify-content-between">
       <small class="text-muted">{{ yearsMin }}+ years</small>
       <small class="text-muted">{{ yearsMax }}+ years</small>
@@ -73,15 +75,17 @@
 
   <label>Min Salary: {{ formatSalary(minSalary) }}</label>
   <div class="range-slider-container mb-3">
-    <input 
-      type="range" 
-      class="form-range" 
-      [min]="minSalaryMin" 
-      [max]="minSalaryMax" 
-      [step]="minSalaryStep"
-      [ngModel]="minSalary || minSalaryMin" 
-      (ngModelChange)="minSalaryChange.emit($event === minSalaryMin ? null : $event)"
-      id="minSalaryRange">
+     <input 
+       type="range" 
+       class="form-range" 
+       [min]="minSalaryMin" 
+       [max]="minSalaryMax" 
+       [step]="minSalaryStep"
+       [ngModel]="minSalary || minSalaryMin" 
+       (ngModelChange)="minSalaryChange.emit($event === minSalaryMin ? null : $event)"
+       (focus)="onElementFocus()" 
+       (blur)="onElementBlur()"
+       id="minSalaryRange">
     <div class="range-labels d-flex justify-content-between">
       <small class="text-muted">{{ formatSalary(minSalaryMin) }}</small>
       <small class="text-muted">{{ formatSalary(minSalaryMax) }}</small>
@@ -90,22 +94,24 @@
 
   <label>Max Salary: {{ formatSalary(maxSalary) }}</label>
   <div class="range-slider-container mb-3">
-    <input 
-      type="range" 
-      class="form-range" 
-      [min]="maxSalaryMin" 
-      [max]="maxSalaryMax" 
-      [step]="maxSalaryStep"
-      [ngModel]="maxSalary || maxSalaryMax" 
-      (ngModelChange)="maxSalaryChange.emit($event === maxSalaryMax ? null : $event)"
-      id="maxSalaryRange">
+     <input 
+       type="range" 
+       class="form-range" 
+       [min]="maxSalaryMin" 
+       [max]="maxSalaryMax" 
+       [step]="maxSalaryStep"
+       [ngModel]="maxSalary || maxSalaryMax" 
+       (ngModelChange)="maxSalaryChange.emit($event === maxSalaryMax ? null : $event)"
+       (focus)="onElementFocus()" 
+       (blur)="onElementBlur()"
+       id="maxSalaryRange">
     <div class="range-labels d-flex justify-content-between">
       <small class="text-muted">{{ formatSalary(maxSalaryMin) }}</small>
       <small class="text-muted">{{ formatSalary(maxSalaryMax) }}</small>
     </div>
   </div>
 
-  <button class="btn btn-secondary w-100 text-white" (click)="reset.emit()">
+  <button class="btn btn-secondary w-100 text-white" (click)="reset.emit()" (focus)="onElementFocus()" (blur)="onElementBlur()">
     <i class="bi bi-x-circle me-1"></i>Reset All
   </button>
 
