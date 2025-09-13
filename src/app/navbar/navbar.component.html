@@ -4,7 +4,7 @@
     <div class="d-flex d-lg-none w-100 align-items-center justify-content-between">
       <!-- Hamburger menu -->
       <button class="btn btn-outline-light mobile-menu-btn" (click)="toggleSidebar.emit()">
-        <i class="fas fa-bars"></i>
+        <i class="bi bi-list"></i>
       </button>
       
       <!-- Center title (mobile) -->
@@ -12,7 +12,7 @@
       
       <!-- Action button (mobile) -->
       <button class="btn btn-primary btn-sm mobile-action-btn" (click)="runShortlist.emit()">
-        <i class="fas fa-star me-1"></i>Shortlist
+        <i class="bi bi-star me-1"></i>Shortlist
       </button>
     </div>
 
@@ -27,7 +27,7 @@
       <!-- Action button (desktop) -->
       <div class="flex-grow-1 d-flex justify-content-end">
         <button class="btn btn-primary desktop-action-btn" (click)="runShortlist.emit()">
-          <i class="fas fa-star me-2"></i>Auto Shortlist
+          <i class="bi bi-star me-2"></i>Auto Shortlist
         </button>
       </div>
     </div>

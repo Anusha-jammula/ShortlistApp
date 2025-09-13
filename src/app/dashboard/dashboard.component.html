@@ -46,7 +46,7 @@
                     [class.active]="activeTab === 'results'"
                     (click)="setActiveTab('results')"
                     type="button">
-              <i class="fas fa-users me-2"></i>Candidate Results ({{ filteredCandidates.length }})
+              <i class="bi bi-people me-2"></i>Candidate Results ({{ filteredCandidates.length }})
             </button>
           </li>
           <li class="nav-item" role="presentation">
@@ -54,7 +54,7 @@
                     [class.active]="activeTab === 'shortlist'"
                     (click)="setActiveTab('shortlist')"
                     type="button">
-              <i class="fas fa-star me-2"></i>Shortlist Summary ({{ shortlisted.length }})
+              <i class="bi bi-star me-2"></i>Shortlist Summary ({{ shortlisted.length }})
             </button>
           </li>
         </ul>
@@ -86,7 +86,7 @@
                 <div class="card mb-3">
                   <div class="card-body">
                     <div *ngIf="!shortlisted.length" class="text-center text-muted py-5">
-                      <i class="fas fa-star fa-3x mb-3 text-muted"></i>
+                      <i class="bi bi-star-fill" style="font-size: 3rem;"></i>
                       <h5>No shortlist yet</h5>
                       <p>Click "Auto Shortlist" to generate your top 5 candidates</p>
                     </div>
@@ -94,7 +94,7 @@
                       <!-- Diversity Summary -->
                       <div class="row mb-4">
                         <div class="col-md-12">
-                          <h6 class="text-primary mb-3"><i class="fas fa-chart-bar me-2"></i>Diversity Summary</h6>
+                          <h6 class="text-primary mb-3"><i class="bi bi-bar-chart me-2"></i>Diversity Summary</h6>
                           <div class="row">
                             <div class="col-md-2 col-6 mb-2">
                               <div class="text-center p-2 bg-light rounded">
@@ -131,7 +131,7 @@
                       </div>
 
                       <!-- Shortlisted Candidates -->
-                      <h6 class="text-primary mb-3"><i class="fas fa-trophy me-2"></i>Selected Candidates</h6>
+                      <h6 class="text-primary mb-3"><i class="bi bi-trophy me-2"></i>Selected Candidates</h6>
                       <div *ngFor="let s of shortlisted; let i = index" 
                            class="border rounded p-3 mb-3 shortlist-card" 
                            [ngClass]="{'shortlist-primary': i % 2 === 0, 'shortlist-secondary': i % 2 === 1}">
