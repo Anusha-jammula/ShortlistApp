@@ -187,10 +187,10 @@
 /* Prevent sidebar from closing when range slider is focused on mobile */
 @media (max-width: 991.98px) {
   #sidebar-wrapper input[type="range"]:focus {
-    position: relative;
-    z-index: 1051;
-    transform: translateZ(0);
+      position: relative;
+      z-index: 1051;
+      transform: translateZ(0);
+    }
   }
-}
 
 

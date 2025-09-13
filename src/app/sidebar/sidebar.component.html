@@ -63,51 +63,38 @@
        [max]="yearsMax" 
        [step]="yearsStep"
        [ngModel]="years || yearsMin" 
-       (ngModelChange)="onElementInteraction(); yearsChange.emit($event === yearsMin ? null : $event)"
+       (ngModelChange)="years = $event; onElementInteraction()"
        (mousedown)="onElementClick()"
        (touchstart)="onElementClick()"
        id="yearsRange">
     <div class="range-labels d-flex justify-content-between">
       <small class="text-muted">{{ yearsMin }}+ years</small>
+      <button class="btn btn-sm d-md-none" (click)="onOkButtonClick('years')">
+        <small><i class="bi bi-check-circle me-1"></i> OK</small>
+      </button>
       <small class="text-muted">{{ yearsMax }}+ years</small>
     </div>
   </div>
 
-  <label>Min Salary: {{ formatSalary(minSalary) }}</label>
+  <label>Salary: {{ formatSalary(salary) }}</label>
   <div class="range-slider-container mb-3">
      <input 
        type="range" 
        class="form-range" 
-       [min]="minSalaryMin" 
-       [max]="minSalaryMax" 
-       [step]="minSalaryStep"
-       [ngModel]="minSalary || minSalaryMin" 
-       (ngModelChange)="onElementInteraction(); minSalaryChange.emit($event === minSalaryMin ? null : $event)"
+       [min]="salaryMin" 
+       [max]="salaryMax" 
+       [step]="salaryStep"
+       [ngModel]="salary || salaryMin" 
+       (ngModelChange)="salary = $event; onElementInteraction()"
        (mousedown)="onElementClick()"
        (touchstart)="onElementClick()"
-       id="minSalaryRange">
+       id="salaryRange">
     <div class="range-labels d-flex justify-content-between">
-      <small class="text-muted">{{ formatSalary(minSalaryMin) }}</small>
-      <small class="text-muted">{{ formatSalary(minSalaryMax) }}</small>
-    </div>
-  </div>
-
-  <label>Max Salary: {{ formatSalary(maxSalary) }}</label>
-  <div class="range-slider-container mb-3">
-     <input 
-       type="range" 
-       class="form-range" 
-       [min]="maxSalaryMin" 
-       [max]="maxSalaryMax" 
-       [step]="maxSalaryStep"
-       [ngModel]="maxSalary || maxSalaryMax" 
-       (ngModelChange)="onElementInteraction(); maxSalaryChange.emit($event === maxSalaryMax ? null : $event)"
-       (mousedown)="onElementClick()"
-       (touchstart)="onElementClick()"
-       id="maxSalaryRange">
-    <div class="range-labels d-flex justify-content-between">
-      <small class="text-muted">{{ formatSalary(maxSalaryMin) }}</small>
-      <small class="text-muted">{{ formatSalary(maxSalaryMax) }}</small>
+      <small class="text-muted">{{ formatSalary(salaryMin) }}</small>
+      <button class="btn btn-sm d-md-none" (click)="onOkButtonClick('salary')">
+        <small><i class="bi bi-check-circle me-1"></i> OK</small>
+      </button>
+      <small class="text-muted">{{ formatSalary(salaryMax) }}</small>
     </div>
   </div>
 
@@ -116,5 +103,6 @@
   </button>
 
 </div>
+
 
 

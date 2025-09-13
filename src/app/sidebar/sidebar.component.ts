@@ -14,8 +14,7 @@ export class SidebarComponent {
   // selected values
   @Input() selectedSkills: string[] = [];
   @Input() selectedLocations: string[] = [];
-  @Input() minSalary: number | null = null;
-  @Input() maxSalary: number | null = null;
+  @Input() salary: number | null = null;
   @Input() years: number | null = null;
   @Input() blindMode = true;
 
@@ -28,8 +27,7 @@ export class SidebarComponent {
   @Output() closeSidebar = new EventEmitter<void>();
   @Output() selectedSkillsChange = new EventEmitter<string[]>();
   @Output() selectedLocationsChange = new EventEmitter<string[]>();
-  @Output() minSalaryChange = new EventEmitter<number | null>();
-  @Output() maxSalaryChange = new EventEmitter<number | null>();
+  @Output() salaryChange = new EventEmitter<number | null>();
   @Output() yearsChange = new EventEmitter<number | null>();
 
   toggleSkillsDropdown() { this.skillsOpen = !this.skillsOpen; }
@@ -61,17 +59,17 @@ export class SidebarComponent {
   yearsMax = 15;
   yearsStep = 1;
   
-  minSalaryMin = 50000;
-  minSalaryMax = 200000;
-  minSalaryStep = 5000;
-  
-  maxSalaryMin = 50000;
-  maxSalaryMax = 200000;
-  maxSalaryStep = 5000;
+  salaryMin = 50000;
+  salaryMax = 200000;
+  salaryStep = 5000;
 
   // Click tracking for mobile sidebar
   isAnyElementClicked = false;
   clickTimeout: any = null;
+  
+  // Track if OK buttons have been clicked
+  yearsOkClicked = false;
+  salaryOkClicked = false;
 
   onElementClick(): void {
     this.isAnyElementClicked = true;
@@ -99,6 +97,26 @@ export class SidebarComponent {
     this.clickTimeout = setTimeout(() => {
       this.isAnyElementClicked = false;
     }, 3000);
+  }
+
+  onOkButtonClick(type: 'years' | 'salary'): void {
+    if (type === 'years') {
+      this.yearsOkClicked = true;
+    } else if (type === 'salary') {
+      this.salaryOkClicked = true;
+    }
+    
+    // Emit the current value to apply the filter
+    if (type === 'years') {
+      this.yearsChange.emit(this.years);
+    } else if (type === 'salary') {
+      this.salaryChange.emit(this.salary);
+    }
+  }
+
+  // Check if any OK button has been clicked
+  get hasAnyOkClicked(): boolean {
+    return this.yearsOkClicked || this.salaryOkClicked;
   }
 
   trackBySkill(index: number, skill: string): string {

@@ -30,8 +30,7 @@ export class DashboardComponent implements OnInit {
   allAvailableLocations: string[] = []; // Store all locations for reference
   selectedSkills: string[] = [];
   selectedLocations: string[] = [];
-  minSalary: number | null = null;
-  maxSalary: number | null = null;
+  salary: number | null = null;
   years: number | null = null;
 
   diversity: DiversitySummary | null = null;
@@ -120,12 +119,8 @@ export class DashboardComponent implements OnInit {
   }
 
   applyFilters(): void {
-    if (this.minSalary !== null && this.minSalary < 50000) {
-      alert('Minimum salary must be at least $50,000');
-      return;
-    }
-    if (this.maxSalary !== null && (this.maxSalary < 50000 || this.maxSalary > 200000)) {
-      alert('Maximum salary must be in between $50,000 and $200,000');
+    if (this.salary !== null && (this.salary < 50000 || this.salary > 200000)) {
+      alert('Salary must be between $50,000 and $200,000');
       return;
     }
 
@@ -140,12 +135,11 @@ export class DashboardComponent implements OnInit {
         ? this.selectedLocations.map(l => l.toLowerCase()).includes((c.location || '').toLowerCase())
         : true;
 
-      const minSalaryMatch = this.minSalary !== null ? (c.annual_salary_expectation['full-time'] ?? Infinity) >= ('$'+this.minSalary.toString()) : true;
-      const maxSalaryMatch = this.maxSalary !== null ? (c.annual_salary_expectation['full-time'] ?? 0) <= ('$'+this.maxSalary.toString()) : true;
+      const salaryMatch = this.salary !== null ? this.parseSalary(c.annual_salary_expectation['full-time']) >= this.salary : true;
 
       const yearsMatch = this.years !== null ? (c.work_experiences?.length || 0) >= this.years : true;
 
-      return skillMatch && locationMatch && minSalaryMatch && maxSalaryMatch && yearsMatch;
+      return skillMatch && locationMatch && salaryMatch && yearsMatch;
     });
     this.shortlisted = [];
     this.diversity = null;
@@ -159,8 +153,7 @@ export class DashboardComponent implements OnInit {
   resetFilters(): void {
     this.selectedSkills = [];
     this.selectedLocations = [];
-    this.minSalary = null;
-    this.maxSalary = null;
+    this.salary = null;
     this.years = null;
     this.filteredCandidates = [...this.allCandidates];
     this.shortlisted = [];
@@ -201,8 +194,8 @@ export class DashboardComponent implements OnInit {
     // Apply filters immediately when skills change
     this.applyFilters();
     
-    // Don't close sidebar on mobile if any element is clicked
-    if (window.innerWidth < 992 && this.sidebarRef && this.sidebarRef.isAnyElementClicked) {
+    // Don't close sidebar on mobile if any element is clicked or OK buttons haven't been used
+    if (window.innerWidth < 992 && this.sidebarRef && (this.sidebarRef.isAnyElementClicked || !this.sidebarRef.hasAnyOkClicked)) {
       return; // Keep sidebar open
     }
   }
@@ -212,30 +205,19 @@ export class DashboardComponent implements OnInit {
     // Apply filters immediately when locations change
     this.applyFilters();
     
-    // Don't close sidebar on mobile if any element is clicked
-    if (window.innerWidth < 992 && this.sidebarRef && this.sidebarRef.isAnyElementClicked) {
+    // Don't close sidebar on mobile if any element is clicked or OK buttons haven't been used
+    if (window.innerWidth < 992 && this.sidebarRef && (this.sidebarRef.isAnyElementClicked || !this.sidebarRef.hasAnyOkClicked)) {
       return; // Keep sidebar open
     }
   }
 
-  onMinSalaryChange(newMinSalary: number | null): void {
-    this.minSalary = newMinSalary;
-    // Apply filters immediately when min salary changes
+  onSalaryChange(newSalary: number | null): void {
+    this.salary = newSalary;
+    // Apply filters immediately when salary changes
     this.applyFilters();
     
-    // Don't close sidebar on mobile if any element is clicked
-    if (window.innerWidth < 992 && this.sidebarRef && this.sidebarRef.isAnyElementClicked) {
-      return; // Keep sidebar open
-    }
-  }
-
-  onMaxSalaryChange(newMaxSalary: number | null): void {
-    this.maxSalary = newMaxSalary;
-    // Apply filters immediately when max salary changes
-    this.applyFilters();
-    
-    // Don't close sidebar on mobile if any element is clicked
-    if (window.innerWidth < 992 && this.sidebarRef && this.sidebarRef.isAnyElementClicked) {
+    // Don't close sidebar on mobile if any element is clicked or OK buttons haven't been used
+    if (window.innerWidth < 992 && this.sidebarRef && (this.sidebarRef.isAnyElementClicked || !this.sidebarRef.hasAnyOkClicked)) {
       return; // Keep sidebar open
     }
   }
@@ -245,8 +227,8 @@ export class DashboardComponent implements OnInit {
     // Apply filters immediately when years change
     this.applyFilters();
     
-    // Don't close sidebar on mobile if any element is clicked
-    if (window.innerWidth < 992 && this.sidebarRef && this.sidebarRef.isAnyElementClicked) {
+    // Don't close sidebar on mobile if any element is clicked or OK buttons haven't been used
+    if (window.innerWidth < 992 && this.sidebarRef && (this.sidebarRef.isAnyElementClicked || !this.sidebarRef.hasAnyOkClicked)) {
       return; // Keep sidebar open
     }
   }
@@ -272,6 +254,12 @@ export class DashboardComponent implements OnInit {
     const skillSet = new Set<string>();
     list.forEach(c => (c.skills || []).forEach(s => skillSet.add((s || '').toLowerCase())));
     return { total, uniqueLocations: locations.size, avgExperience, topSchoolCount, skillsCovered: skillSet.size };
+  }
+
+  private parseSalary(salaryStr: string): number {
+    if (!salaryStr) return 0;
+    const cleaned = salaryStr.replace(/[$,]/g, '');
+    return parseInt(cleaned, 10) || 0;
   }
 }
 
