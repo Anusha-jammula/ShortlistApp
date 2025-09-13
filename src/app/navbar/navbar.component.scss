@@ -30,6 +30,18 @@
   font-size: 1.1rem;
   border-radius: 8px;
   transition: all 0.3s ease;
+  /* iOS Safari fixes */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  /* Ensure button is clickable on iOS */
+  position: relative;
+  z-index: 1000;
 }
 
 .mobile-menu-btn:hover {
@@ -71,6 +83,12 @@
     min-width: 40px;
     height: 40px;
     padding: 6px 8px !important;
+    /* iOS Safari specific fixes */
+    -webkit-tap-highlight-color: rgba(255,255,255,0.2);
+    touch-action: manipulation;
+    /* Ensure proper touch target size for iOS */
+    min-height: 44px;
+    min-width: 44px;
   }
   
   .mobile-action-btn {
@@ -108,9 +126,12 @@
   }
   
   .mobile-menu-btn {
-    min-width: 36px;
-    height: 36px;
+    min-width: 44px;
+    height: 44px;
     padding: 4px 6px !important;
+    /* iOS Safari specific fixes for small screens */
+    -webkit-tap-highlight-color: rgba(255,255,255,0.2);
+    touch-action: manipulation;
   }
   
   .navbar-brand {

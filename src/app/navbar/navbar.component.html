@@ -3,7 +3,10 @@
     <!-- Mobile Layout -->
     <div class="d-flex d-lg-none w-100 align-items-center justify-content-between">
       <!-- Hamburger menu -->
-      <button class="btn btn-outline-light mobile-menu-btn" (click)="toggleSidebar.emit()">
+      <button class="btn btn-outline-light mobile-menu-btn" 
+              (click)="toggleSidebar.emit()" 
+              (touchstart)="toggleSidebar.emit()"
+              (touchend)="$event.preventDefault()">
         <i class="bi bi-list"></i>
       </button>
       

@@ -154,6 +154,10 @@
     padding: 1rem;
     overflow-y: auto !important;
     overflow-x: hidden !important;
+    /* iOS Safari fixes */
+    -webkit-overflow-scrolling: touch;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
     
     h5 { font-size: 1.25rem; margin-bottom: 1rem; }
     label { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; }
