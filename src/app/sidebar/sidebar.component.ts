@@ -36,6 +36,11 @@ export class SidebarComponent {
     this.closeSidebar.emit();
   }
 
+  resetDropdownStates() {
+    this.skillsOpen = false;
+    this.locationsOpen = false;
+  }
+
   onSkillToggle(skill: string, event: Event) {
     const input = event.target as HTMLInputElement | null;
     const checked = !!input && !!input.checked;

@@ -91,6 +91,12 @@ export class DashboardComponent implements OnInit {
     this.diversity = null;
     this.salary = null;
     this.years = null;
+    this.selectedSkills = [];
+    this.selectedLocations = [];
+    this.availableLocations = [...this.allAvailableLocations];
+    if (this.sidebarRef) {
+      this.sidebarRef.resetDropdownStates();
+    }
   }
 
   private initializeSidebarState(): void {
