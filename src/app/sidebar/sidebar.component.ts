@@ -92,6 +92,17 @@ export class SidebarComponent {
     }
   }
 
+  // Track input focus state
+  isInputFocused = false;
+
+  onInputFocus(): void {
+    this.isInputFocused = true;
+  }
+
+  onInputBlur(): void {
+    this.isInputFocused = false;
+  }
+
   // TrackBy functions for performance optimization
   trackBySkill(index: number, skill: string): string {
     return skill;

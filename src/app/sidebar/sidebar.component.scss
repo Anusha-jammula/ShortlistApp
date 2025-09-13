@@ -41,6 +41,9 @@
 @media (max-width: 991.98px) {
   #sidebar-wrapper {
     padding: 1rem;
+    /* Prevent sidebar from closing when mobile keyboard opens */
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
   }
   
   #sidebar-wrapper h5 {
@@ -80,6 +83,16 @@
 .list-group-item.sticky-top {
   top: 0;
   z-index: 1010;
+}
+
+/* Prevent sidebar from closing when input is focused on mobile */
+@media (max-width: 991.98px) {
+  #sidebar-wrapper input:focus {
+    position: relative;
+    z-index: 1051;
+    /* Ensure input stays visible when keyboard opens */
+    transform: translateZ(0);
+  }
 }
 
 

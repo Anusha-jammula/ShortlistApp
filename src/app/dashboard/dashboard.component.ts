@@ -1,7 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { CandidateService } from '../candidate.service';
 import { Candidate } from '../models';
 import { autoShortlist } from '../shortlist-algo';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 interface DiversitySummary {
   total: number;
@@ -36,6 +37,8 @@ export class DashboardComponent implements OnInit {
   activeTab = 'results'; // Track active tab
   sidebarOpen = false; // Track sidebar visibility - start closed on mobile
   isMobile = false; // Track if we're on mobile
+
+  @ViewChild('sidebarRef') sidebarRef!: SidebarComponent;
 
   constructor(private cs: CandidateService, private cdr: ChangeDetectorRef) {}
 
@@ -124,7 +127,8 @@ export class DashboardComponent implements OnInit {
     this.shortlisted = [];
     this.diversity = null;
     
-    if (window.innerWidth < 992) {
+    // Only close sidebar on mobile if no input is focused
+    if (window.innerWidth < 992 && (!this.sidebarRef || !this.sidebarRef.isInputFocused)) {
       this.sidebarOpen = false;
     }
   }
@@ -139,8 +143,8 @@ export class DashboardComponent implements OnInit {
     this.shortlisted = [];
     this.diversity = null;
     
-    // Close sidebar on mobile after resetting filters
-    if (window.innerWidth < 992) {
+    // Only close sidebar on mobile if no input is focused
+    if (window.innerWidth < 992 && (!this.sidebarRef || !this.sidebarRef.isInputFocused)) {
       this.sidebarOpen = false;
     }
   }

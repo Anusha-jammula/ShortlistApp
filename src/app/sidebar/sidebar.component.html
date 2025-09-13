@@ -55,13 +55,13 @@
   </div>
 
   <label>Enter Years of Experience</label>
-  <input type="number" class="form-control mb-2" [ngModel]="years" (ngModelChange)="yearsChange.emit($event)" (keypress)="onKeyPress($event)" (paste)="onPaste($event)" min="1">
+  <input type="number" class="form-control mb-2" [ngModel]="years" (ngModelChange)="yearsChange.emit($event)" (keypress)="onKeyPress($event)" (paste)="onPaste($event)" (focus)="onInputFocus()" (blur)="onInputBlur()" min="1">
 
   <label>Min Salary</label>
-  <input type="number" class="form-control mb-2" [ngModel]="minSalary" (ngModelChange)="minSalaryChange.emit($event)" (keypress)="onKeyPress($event)" (paste)="onPaste($event)" min="1">
+  <input type="number" class="form-control mb-2" [ngModel]="minSalary" (ngModelChange)="minSalaryChange.emit($event)" (keypress)="onKeyPress($event)" (paste)="onPaste($event)" (focus)="onInputFocus()" (blur)="onInputBlur()" min="1">
 
   <label>Max Salary</label>
-  <input type="number" class="form-control mb-2" [ngModel]="maxSalary" (ngModelChange)="maxSalaryChange.emit($event)" (keypress)="onKeyPress($event)" (paste)="onPaste($event)" min="1">
+  <input type="number" class="form-control mb-2" [ngModel]="maxSalary" (ngModelChange)="maxSalaryChange.emit($event)" (keypress)="onKeyPress($event)" (paste)="onPaste($event)" (focus)="onInputFocus()" (blur)="onInputBlur()" min="1">
 
   <button class="btn btn-primary w-100 mb-2 text-white" (click)="apply.emit()">Apply</button>
   <button class="btn btn-secondary w-100 text-white" (click)="reset.emit()">Reset</button>
