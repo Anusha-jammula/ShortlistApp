@@ -33,11 +33,20 @@ export class DashboardComponent implements OnInit {
 
   diversity: DiversitySummary | null = null;
   activeTab = 'results'; // Track active tab
-  sidebarOpen = true; // Track sidebar visibility
+  sidebarOpen = false; // Track sidebar visibility - start closed on mobile
+  isMobile = false; // Track if we're on mobile
 
   constructor(private cs: CandidateService) {}
 
   ngOnInit(): void {
+    // Initialize sidebar state based on screen size
+    this.initializeSidebarState();
+    
+    // Listen for window resize events
+    window.addEventListener('resize', () => {
+      this.initializeSidebarState();
+    });
+    
     this.cs.getCandidates().subscribe({
       next: data => {
         this.allCandidates = data;
@@ -50,6 +59,12 @@ export class DashboardComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  private initializeSidebarState(): void {
+    // Show sidebar by default on desktop, hide on mobile
+    this.isMobile = window.innerWidth < 992;
+    this.sidebarOpen = window.innerWidth >= 992;
   }
 
   private computeAvailableFilters(list: Candidate[]) {
@@ -94,6 +109,11 @@ export class DashboardComponent implements OnInit {
     });
     this.shortlisted = [];
     this.diversity = null;
+    
+    // Close sidebar on mobile after applying filters
+    if (window.innerWidth < 992) {
+      this.sidebarOpen = false;
+    }
   }
 
   resetFilters(): void {
@@ -105,6 +125,11 @@ export class DashboardComponent implements OnInit {
     this.filteredCandidates = [...this.allCandidates];
     this.shortlisted = [];
     this.diversity = null;
+    
+    // Close sidebar on mobile after resetting filters
+    if (window.innerWidth < 992) {
+      this.sidebarOpen = false;
+    }
   }
 
   runAutoShortlist(): void {
@@ -123,6 +148,7 @@ export class DashboardComponent implements OnInit {
 
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;
+    console.log('Sidebar toggled:', this.sidebarOpen, 'isMobile:', this.isMobile);
   }
 
   private computeDiversity(list: Candidate[]): DiversitySummary {

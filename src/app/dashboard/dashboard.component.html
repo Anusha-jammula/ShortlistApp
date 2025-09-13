@@ -1,4 +1,4 @@
-<div class="d-flex" id="wrapper">
+<div class="d-flex h-100" id="wrapper">
   <app-sidebar
     [availableSkills]="availableSkills"
     [availableLocations]="availableLocations"
@@ -14,13 +14,27 @@
     (yearsChange)="years=$event"
     (apply)="applyFilters()"
     (reset)="resetFilters()"
-    [ngClass]="{'d-none': !sidebarOpen, 'd-lg-block': true}"
+    [class.show]="sidebarOpen"
+    class="sidebar-component"
+    [style.left]="isMobile ? (sidebarOpen ? '0px' : '-280px') : '0px'"
+    [style.position]="isMobile ? 'fixed' : 'sticky'"
+    [style.z-index]="isMobile ? '1050' : 'auto'"
+    [style.width]="isMobile ? '280px' : '250px'"
+    [style.height]="isMobile ? '100vh' : '100vh'"
+    [style.top]="'0'"
+    [style.transition]="isMobile ? 'left 0.3s ease-in-out' : 'none'"
+    [style.display]="'block'"
+    [style.visibility]="'visible'"
+    [style.opacity]="'1'"
   ></app-sidebar>
+
+  <!-- Mobile overlay for sidebar -->
+  <div *ngIf="sidebarOpen" class="mobile-overlay d-lg-none" (click)="toggleSidebar()"></div>
 
   <div id="page-content-wrapper" class="flex-grow-1">
     <app-navbar (runShortlist)="runAutoShortlist()" (toggleSidebar)="toggleSidebar()"></app-navbar>
 
-    <div class="container-fluid mt-4">
+    <div class="container-fluid mt-3 pb-4">
       <div *ngIf="loading" class="alert alert-info">Loading candidates...</div>
 
       <div *ngIf="!loading">

@@ -8,7 +8,66 @@
   align-self: flex-start;
   height: 100vh;
   overflow-y: auto;
+  overflow-x: hidden; /* Prevent horizontal scroll */
   border-right: 3px solid rgba(255,255,255,0.1);
+  transition: all 0.3s ease;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Mobile sidebar styles */
+@media (max-width: 991.98px) {
+  #sidebar-wrapper {
+    position: fixed !important;
+    top: 0 !important;
+    z-index: 1050 !important;
+    width: 280px !important;
+    height: 100vh !important;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.3) !important;
+    transition: left 0.3s ease-in-out !important;
+    /* Left position will be controlled by inline styles */
+  }
+}
+
+@media (max-width: 575.98px) {
+  #sidebar-wrapper {
+    width: 100vw;
+    max-width: 320px;
+  }
+}
+
+/* Mobile-specific sidebar improvements */
+@media (max-width: 991.98px) {
+  #sidebar-wrapper {
+    padding: 1rem;
+  }
+  
+  #sidebar-wrapper h5 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  #sidebar-wrapper label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  
+  #sidebar-wrapper .btn {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+  }
+  
+  #sidebar-wrapper .form-control {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+  }
+  
+  #sidebar-wrapper .badge {
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+  }
 }
 
 .list-group {

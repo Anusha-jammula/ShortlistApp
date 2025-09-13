@@ -2,12 +2,25 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 
 /* Global body styling */
+html {
+  height: 100%;
+  overflow: hidden; /* Prevent html scroll */
+}
+
 body {
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  /* background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); */
   background-attachment: fixed;
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  height: 100vh;
+  overflow: hidden; /* Prevent body scroll */
+}
+
+#wrapper {
+  height: 100vh;
+  overflow: hidden;
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 /* Enhanced card styling */
