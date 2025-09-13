@@ -24,7 +24,6 @@ export class SidebarComponent {
   locationsOpen = false;
 
   // events
-  @Output() apply = new EventEmitter<void>();
   @Output() reset = new EventEmitter<void>();
   @Output() closeSidebar = new EventEmitter<void>();
   @Output() selectedSkillsChange = new EventEmitter<string[]>();
@@ -32,7 +31,6 @@ export class SidebarComponent {
   @Output() minSalaryChange = new EventEmitter<number | null>();
   @Output() maxSalaryChange = new EventEmitter<number | null>();
   @Output() yearsChange = new EventEmitter<number | null>();
-  // @Output() blindModeChange = new EventEmitter<boolean>();
 
   toggleSkillsDropdown() { this.skillsOpen = !this.skillsOpen; }
   toggleLocationsDropdown() { this.locationsOpen = !this.locationsOpen; }
@@ -113,6 +111,10 @@ export class SidebarComponent {
 
   trackByLocation(index: number, location: string): string {
     return location;
+  }
+
+  get totalLocationsCount(): number {
+    return this.availableLocations.length;
   }
   
 }

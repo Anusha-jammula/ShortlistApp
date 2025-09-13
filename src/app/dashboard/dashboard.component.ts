@@ -26,6 +26,7 @@ export class DashboardComponent implements OnInit {
   // filter state
   availableSkills: string[] = [];
   availableLocations: string[] = [];
+  allAvailableLocations: string[] = []; // Store all locations for reference
   selectedSkills: string[] = [];
   selectedLocations: string[] = [];
   minSalary: number | null = null;
@@ -88,7 +89,31 @@ export class DashboardComponent implements OnInit {
       const loc = (c.location || '').trim(); if (loc) locationSet.add(loc);
     });
     this.availableSkills = Array.from(skillSet).sort((a,b)=>a.localeCompare(b));
-    this.availableLocations = Array.from(locationSet).sort((a,b)=>a.localeCompare(b));
+    this.allAvailableLocations = Array.from(locationSet).sort((a,b)=>a.localeCompare(b));
+    this.availableLocations = [...this.allAvailableLocations]; // Start with all locations
+  }
+
+  private computeAvailableLocationsForSkills(list: Candidate[], selectedSkills: string[]): string[] {
+    if (selectedSkills.length === 0) {
+      // If no skills selected, show all locations
+      return this.allAvailableLocations;
+    }
+
+    const locationSet = new Set<string>();
+    list.forEach(candidate => {
+      // Check if candidate has all selected skills
+      const candidateSkills = (candidate.skills || []).map(s => (s || '').toLowerCase());
+      const hasAllSkills = selectedSkills.every(skill => 
+        candidateSkills.includes(skill.toLowerCase())
+      );
+      
+      if (hasAllSkills) {
+        const loc = (candidate.location || '').trim();
+        if (loc) locationSet.add(loc);
+      }
+    });
+    
+    return Array.from(locationSet).sort((a,b)=>a.localeCompare(b));
   }
 
   applyFilters(): void {
@@ -160,6 +185,42 @@ export class DashboardComponent implements OnInit {
 
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;
+  }
+
+  onSkillsChange(newSkills: string[]): void {
+    this.selectedSkills = newSkills;
+    // Update available locations based on selected skills
+    this.availableLocations = this.computeAvailableLocationsForSkills(this.allCandidates, newSkills);
+    
+    // Automatically select all available locations for the selected skills
+    this.selectedLocations = [...this.availableLocations];
+    
+    // Apply filters immediately when skills change
+    this.applyFilters();
+  }
+
+  onLocationsChange(newLocations: string[]): void {
+    this.selectedLocations = newLocations;
+    // Apply filters immediately when locations change
+    this.applyFilters();
+  }
+
+  onMinSalaryChange(newMinSalary: number | null): void {
+    this.minSalary = newMinSalary;
+    // Apply filters immediately when min salary changes
+    this.applyFilters();
+  }
+
+  onMaxSalaryChange(newMaxSalary: number | null): void {
+    this.maxSalary = newMaxSalary;
+    // Apply filters immediately when max salary changes
+    this.applyFilters();
+  }
+
+  onYearsChange(newYears: number | null): void {
+    this.years = newYears;
+    // Apply filters immediately when years change
+    this.applyFilters();
   }
 
   // TrackBy functions for performance optimization
