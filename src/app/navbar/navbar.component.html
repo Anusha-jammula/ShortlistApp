@@ -8,12 +8,12 @@
       </button>
       
       <!-- Center title (mobile) -->
-      <h5 class="navbar-brand mb-0 fw-bold text-white text-center flex-grow-1">Hiring Dashboard</h5>
+      <h6 class="navbar-brand mb-0 fw-bold text-white text-center flex-grow-1 mx-2">Hiring Dashboard</h6>
       
       <!-- Action buttons (mobile) -->
-      <div class="d-flex gap-2">
+      <div class="d-flex gap-1">
         <button class="btn btn-outline-light btn-sm" (click)="refreshData.emit()" title="Refresh Data">
-          <i class="bi bi-arrow-clockwise"></i>
+          <i class="bi bi-arrow-clockwise me-1"></i>Refresh
         </button>
         <button class="btn btn-primary btn-sm mobile-action-btn" (click)="runShortlist.emit()">
           <i class="bi bi-star me-1"></i>Shortlist

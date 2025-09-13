@@ -64,17 +64,65 @@
 /* Mobile layout adjustments */
 @media (max-width: 991.98px) {
   .navbar {
-    padding: 0.5rem 1rem !important;
+    padding: 0.5rem 0.5rem !important;
   }
   
   .mobile-menu-btn {
-    min-width: 44px;
-    height: 44px;
+    min-width: 40px;
+    height: 40px;
+    padding: 6px 8px !important;
   }
   
   .mobile-action-btn {
     min-width: 80px;
+    height: 32px;
+    padding: 4px 8px !important;
+    font-size: 0.75rem;
+    white-space: nowrap;
+  }
+  
+  .navbar-brand {
+    font-size: clamp(0.8rem, 2.5vw, 1rem);
+    margin: 0 0.25rem;
+  }
+  
+  .btn-sm {
+    padding: 4px 6px !important;
+    font-size: 0.75rem;
+    min-width: 70px;
+    white-space: nowrap;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 576px) {
+  .navbar {
+    padding: 0.3rem 0.4rem !important;
+  }
+  
+  .mobile-action-btn {
+    min-width: 70px;
+    height: 30px;
+    padding: 3px 6px !important;
+    font-size: 0.7rem;
+  }
+  
+  .mobile-menu-btn {
+    min-width: 36px;
     height: 36px;
+    padding: 4px 6px !important;
+  }
+  
+  .navbar-brand {
+    font-size: 0.75rem;
+    margin: 0 0.2rem;
+  }
+  
+  .btn-sm {
+    padding: 3px 5px !important;
+    font-size: 0.7rem;
+    min-width: 60px;
+    height: 30px;
   }
 }
 
