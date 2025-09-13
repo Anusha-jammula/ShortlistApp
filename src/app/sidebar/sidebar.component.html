@@ -54,20 +54,56 @@
     <span *ngFor="let l of selectedLocations; trackBy: trackByLocation" class="badge bg-success me-1">{{ l }}</span>
   </div>
   
-  <label>Years of Experience</label>
-  <select class="form-select mb-2" [ngModel]="years" (ngModelChange)="yearsChange.emit($event)">
-    <option *ngFor="let option of yearsOptions" [value]="option.value">{{ option.label }}</option>
-  </select>
+  <label>Years of Experience: {{ formatYears(years) }}</label>
+  <div class="range-slider-container mb-3">
+    <input 
+      type="range" 
+      class="form-range" 
+      [min]="yearsMin" 
+      [max]="yearsMax" 
+      [step]="yearsStep"
+      [ngModel]="years || yearsMin" 
+      (ngModelChange)="yearsChange.emit($event === yearsMin ? null : $event)"
+      id="yearsRange">
+    <div class="range-labels d-flex justify-content-between">
+      <small class="text-muted">{{ yearsMin }}+ years</small>
+      <small class="text-muted">{{ yearsMax }}+ years</small>
+    </div>
+  </div>
 
-  <label>Min Salary</label>
-  <select class="form-select mb-2" [ngModel]="minSalary" (ngModelChange)="minSalaryChange.emit($event)">
-    <option *ngFor="let option of minSalaryOptions" [value]="option.value">{{ option.label }}</option>
-  </select>
+  <label>Min Salary: {{ formatSalary(minSalary) }}</label>
+  <div class="range-slider-container mb-3">
+    <input 
+      type="range" 
+      class="form-range" 
+      [min]="minSalaryMin" 
+      [max]="minSalaryMax" 
+      [step]="minSalaryStep"
+      [ngModel]="minSalary || minSalaryMin" 
+      (ngModelChange)="minSalaryChange.emit($event === minSalaryMin ? null : $event)"
+      id="minSalaryRange">
+    <div class="range-labels d-flex justify-content-between">
+      <small class="text-muted">{{ formatSalary(minSalaryMin) }}</small>
+      <small class="text-muted">{{ formatSalary(minSalaryMax) }}</small>
+    </div>
+  </div>
 
-  <label>Max Salary</label>
-  <select class="form-select mb-2" [ngModel]="maxSalary" (ngModelChange)="maxSalaryChange.emit($event)">
-    <option *ngFor="let option of maxSalaryOptions" [value]="option.value">{{ option.label }}</option>
-  </select>
+  <label>Max Salary: {{ formatSalary(maxSalary) }}</label>
+  <div class="range-slider-container mb-3">
+    <input 
+      type="range" 
+      class="form-range" 
+      [min]="maxSalaryMin" 
+      [max]="maxSalaryMax" 
+      [step]="maxSalaryStep"
+      [ngModel]="maxSalary || maxSalaryMax" 
+      (ngModelChange)="maxSalaryChange.emit($event === maxSalaryMax ? null : $event)"
+      id="maxSalaryRange">
+    <div class="range-labels d-flex justify-content-between">
+      <small class="text-muted">{{ formatSalary(maxSalaryMin) }}</small>
+      <small class="text-muted">{{ formatSalary(maxSalaryMax) }}</small>
+    </div>
+  </div>
 
   <button class="btn btn-secondary w-100 text-white" (click)="reset.emit()">
     <i class="bi bi-x-circle me-1"></i>Reset All
