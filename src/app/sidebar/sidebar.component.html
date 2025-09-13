@@ -1,9 +1,14 @@
 <div class="border-end text-white p-3" id="sidebar-wrapper">
-  <!-- Debug element -->
-  <div style="background: yellow; color: black; padding: 10px; margin-bottom: 10px; font-weight: bold;">
-    SIDEBAR IS WORKING!
+  <!-- Close button for mobile -->
+  <div class="d-flex justify-content-between align-items-center mb-3 d-lg-none">
+    <h5 class="mb-0">Filters</h5>
+    <button type="button" class="btn btn-outline-light btn-sm" (click)="onCloseSidebar()" aria-label="Close sidebar">
+      <i class="fas fa-times"></i>
+    </button>
   </div>
-  <h5>Filters</h5>
+  
+  <!-- Desktop title -->
+  <h5 class="d-none d-lg-block mb-3">Filters</h5>
 
   <label>Skills</label>
   <div class="w-100 mb-2 position-relative">

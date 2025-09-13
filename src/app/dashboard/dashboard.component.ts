@@ -148,7 +148,6 @@ export class DashboardComponent implements OnInit {
 
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;
-    console.log('Sidebar toggled:', this.sidebarOpen, 'isMobile:', this.isMobile);
   }
 
   private computeDiversity(list: Candidate[]): DiversitySummary {

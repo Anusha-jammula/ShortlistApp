@@ -25,6 +25,7 @@ export class SidebarComponent {
   // events
   @Output() apply = new EventEmitter<void>();
   @Output() reset = new EventEmitter<void>();
+  @Output() closeSidebar = new EventEmitter<void>();
   @Output() selectedSkillsChange = new EventEmitter<string[]>();
   @Output() selectedLocationsChange = new EventEmitter<string[]>();
   @Output() minSalaryChange = new EventEmitter<number | null>();
@@ -34,6 +35,10 @@ export class SidebarComponent {
 
   toggleSkillsDropdown() { this.skillsOpen = !this.skillsOpen; }
   toggleLocationsDropdown() { this.locationsOpen = !this.locationsOpen; }
+  
+  onCloseSidebar() {
+    this.closeSidebar.emit();
+  }
 
   onSkillToggle(skill: string, event: Event) {
     const input = event.target as HTMLInputElement | null;

@@ -14,6 +14,7 @@
     (yearsChange)="years=$event"
     (apply)="applyFilters()"
     (reset)="resetFilters()"
+    (closeSidebar)="toggleSidebar()"
     [class.show]="sidebarOpen"
     class="sidebar-component"
     [style.left]="isMobile ? (sidebarOpen ? '0px' : '-280px') : '0px'"
