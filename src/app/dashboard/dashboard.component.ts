@@ -94,6 +94,7 @@ export class DashboardComponent implements OnInit {
     this.selectedSkills = [];
     this.selectedLocations = [];
     this.availableLocations = [...this.allAvailableLocations];
+    this.activeTab = 'results';
     if (this.sidebarRef) {
       this.sidebarRef.resetDropdownStates();
     }
@@ -197,6 +198,8 @@ export class DashboardComponent implements OnInit {
     // this.filteredCandidates = top;
     this.shortlisted = top;
     this.diversity = this.computeDiversity(top);
+    // Automatically switch to Shortlist Summary tab
+    this.activeTab = 'shortlist';
   }
 
   setActiveTab(tab: string): void {
