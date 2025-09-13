@@ -85,12 +85,11 @@
   z-index: 1010;
 }
 
-/* Prevent sidebar from closing when input is focused on mobile */
+/* Prevent sidebar from closing when dropdown is focused on mobile */
 @media (max-width: 991.98px) {
-  #sidebar-wrapper input:focus {
+  #sidebar-wrapper select:focus {
     position: relative;
     z-index: 1051;
-    /* Ensure input stays visible when keyboard opens */
     transform: translateZ(0);
   }
 }

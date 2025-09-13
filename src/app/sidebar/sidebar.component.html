@@ -54,14 +54,20 @@
     <span *ngFor="let l of selectedLocations; trackBy: trackByLocation" class="badge bg-success me-1">{{ l }}</span>
   </div>
 
-  <label>Enter Years of Experience</label>
-  <input type="number" class="form-control mb-2" [ngModel]="years" (ngModelChange)="yearsChange.emit($event)" (keypress)="onKeyPress($event)" (paste)="onPaste($event)" (focus)="onInputFocus()" (blur)="onInputBlur()" min="1">
+  <label>Years of Experience</label>
+  <select class="form-select mb-2" [ngModel]="years" (ngModelChange)="yearsChange.emit($event)">
+    <option *ngFor="let option of yearsOptions" [value]="option.value">{{ option.label }}</option>
+  </select>
 
   <label>Min Salary</label>
-  <input type="number" class="form-control mb-2" [ngModel]="minSalary" (ngModelChange)="minSalaryChange.emit($event)" (keypress)="onKeyPress($event)" (paste)="onPaste($event)" (focus)="onInputFocus()" (blur)="onInputBlur()" min="1">
+  <select class="form-select mb-2" [ngModel]="minSalary" (ngModelChange)="minSalaryChange.emit($event)">
+    <option *ngFor="let option of minSalaryOptions" [value]="option.value">{{ option.label }}</option>
+  </select>
 
   <label>Max Salary</label>
-  <input type="number" class="form-control mb-2" [ngModel]="maxSalary" (ngModelChange)="maxSalaryChange.emit($event)" (keypress)="onKeyPress($event)" (paste)="onPaste($event)" (focus)="onInputFocus()" (blur)="onInputBlur()" min="1">
+  <select class="form-select mb-2" [ngModel]="maxSalary" (ngModelChange)="maxSalaryChange.emit($event)">
+    <option *ngFor="let option of maxSalaryOptions" [value]="option.value">{{ option.label }}</option>
+  </select>
 
   <button class="btn btn-primary w-100 mb-2 text-white" (click)="apply.emit()">Apply</button>
   <button class="btn btn-secondary w-100 text-white" (click)="reset.emit()">Reset</button>
