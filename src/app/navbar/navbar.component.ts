@@ -11,6 +11,25 @@ export class NavbarComponent {
   @Output() runShortlist = new EventEmitter<void>();
   @Output() toggleSidebar = new EventEmitter<void>();
   @Output() refreshData = new EventEmitter<void>();
+
+  onRefreshClick(): void {
+    // Emit refresh event on click
+    this.refreshData.emit();
+  }
+
+  onRefreshTouch(event: TouchEvent): void {
+    // Prevent default touch behavior
+    event.preventDefault();
+    // Emit refresh event immediately on touch
+    this.refreshData.emit();
+  }
+
+  onHamburgerTouch(event: TouchEvent): void {
+    // Prevent default touch behavior
+    event.preventDefault();
+    // Emit toggle sidebar event immediately on touch
+    this.toggleSidebar.emit();
+  }
 }
 
 

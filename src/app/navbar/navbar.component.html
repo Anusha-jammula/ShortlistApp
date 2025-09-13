@@ -5,8 +5,7 @@
       <!-- Hamburger menu -->
       <button class="btn btn-outline-light mobile-menu-btn" 
               (click)="toggleSidebar.emit()" 
-              (touchstart)="toggleSidebar.emit()"
-              (touchend)="$event.preventDefault()">
+              (touchstart)="onHamburgerTouch($event)">
         <i class="bi bi-list"></i>
       </button>
       
@@ -15,7 +14,10 @@
       
       <!-- Action buttons (mobile) -->
       <div class="d-flex gap-1">
-        <button class="btn btn-outline-light btn-sm" (click)="refreshData.emit()" title="Refresh Data">
+        <button class="btn btn-outline-light btn-sm" 
+                (click)="onRefreshClick()" 
+                (touchstart)="onRefreshTouch($event)"
+                title="Refresh Data">
           <i class="bi bi-arrow-clockwise me-1"></i>Refresh
         </button>
         <button *ngIf="showShortlistButton" class="btn btn-primary btn-sm mobile-action-btn" (click)="runShortlist.emit()">
@@ -34,7 +36,10 @@
       
       <!-- Action buttons (desktop) -->
       <div class="flex-grow-1 d-flex justify-content-end gap-2">
-        <button class="btn btn-outline-light" (click)="refreshData.emit()" title="Refresh Data">
+        <button class="btn btn-outline-light" 
+                (click)="onRefreshClick()" 
+                (touchstart)="onRefreshTouch($event)"
+                title="Refresh Data">
           <i class="bi bi-arrow-clockwise me-1"></i>Refresh
         </button>
         <button *ngIf="showShortlistButton" class="btn btn-primary desktop-action-btn" (click)="runShortlist.emit()">

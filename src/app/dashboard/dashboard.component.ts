@@ -86,15 +86,16 @@ export class DashboardComponent implements OnInit {
   }
 
   refreshData(): void {
-    this.loadCandidates();
+    this.activeTab = 'results';
+    this.cdr.detectChanges();
     this.shortlisted = [];
+    this.loadCandidates();
     this.diversity = null;
     this.salary = null;
     this.years = null;
     this.selectedSkills = [];
     this.selectedLocations = [];
     this.availableLocations = [...this.allAvailableLocations];
-    this.activeTab = 'results';
     if (this.sidebarRef) {
       this.sidebarRef.resetDropdownStates();
     }
