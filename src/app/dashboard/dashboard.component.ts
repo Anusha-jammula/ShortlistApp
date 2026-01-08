@@ -54,6 +54,16 @@ export class DashboardComponent implements OnInit {
   constructor(private cs: CandidateService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
+// TEST
+
+console.log('test git mergre')
+
+
+
+// TEST END
+
+
+
     this.initializeSidebarState();
     
     window.addEventListener('resize', () => {
