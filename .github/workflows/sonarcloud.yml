@@ -27,7 +27,7 @@ jobs:
         run: npm install
 
       - name: Run Angular tests with coverage
-        run: npm test -- --watch=false --code-coverage
+        run: npm test -- --watch=false --code-coverage --browsers=ChromeHeadless
 
       - name: Build Angular application
         run: npm run build
