@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shortlist-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: shortlist-app
+  template:
+    metadata:
+      labels:
+        app: shortlist-app
+    spec:
+      containers:
+        - name: shortlist-app
+          image: anushajammula/shortlist-app:latest
+          ports:
+            - containerPort: 80
