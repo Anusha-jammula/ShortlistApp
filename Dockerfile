@@ -14,7 +14,7 @@ RUN npm run build --configuration=production
 FROM nginx:alpine
 # Copy the build output from Stage 1 to Nginx's public folder
 # Note: Check your 'dist/' folder structure. It might be /app/dist/<project-name>/browser
-COPY --from=build /app/dist/*/browser /usr/share/nginx/html
+COPY --from=build /app/dist/shortlist-app /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose port 80
